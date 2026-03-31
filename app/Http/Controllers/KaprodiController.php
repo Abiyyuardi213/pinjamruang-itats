@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\PengajuanPeminjamanRuangan;
+use App\Models\User;
+use App\Notifications\KaprodiApprovedNotification;
 use App\Notifications\StatusPengajuanNotification;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -149,6 +152,20 @@ class KaprodiController extends Controller
         if ($pengajuan->user) {
             $pengajuan->user->notify(new StatusPengajuanNotification('pending_admin'));
         }
+
+        // Notify Admins
+        $admins = User::whereHas('role', function ($query) {
+            $query->where('role_name', 'admin')->orWhere('role_name', 'Admin');
+        })->get();
+
+        // Pass the pengajuan type temporarily back just for the notification
+        $pengajuanType = '';
+        if ($pengajuan instanceof \App\Models\PengajuanPeminjamanRuangan) $pengajuanType = 'ruangan';
+        if ($pengajuan instanceof \App\Models\PengajuanPeminjamanSupport) $pengajuanType = 'support';
+        if ($pengajuan instanceof \App\Models\PengajuanPeminjamanLaboratorium) $pengajuanType = 'laboratorium';
+        $pengajuan->type = $pengajuanType;
+
+        Notification::send($admins, new KaprodiApprovedNotification($pengajuan));
 
         return redirect()->route('kaprodi.approval.index')
             ->with('success', 'Pengajuan disetujui, diteruskan ke Admin.');

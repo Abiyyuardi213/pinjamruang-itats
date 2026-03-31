@@ -8,66 +8,82 @@
         .dataTables_wrapper .dataTables_paginate {
             display: flex;
             justify-content: flex-end;
-            align-items: center;
             gap: 0.25rem;
-            margin-top: 0.5rem;
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             display: inline-flex;
-            min-width: 2rem;
-            height: 2rem;
             align-items: center;
             justify-content: center;
-            padding: 0 0.75rem;
+            padding: 0.375rem 0.75rem;
             font-size: 0.875rem;
+            line-height: 1.25rem;
             font-weight: 500;
-            border-radius: 0.375rem;
-            border: 1px solid #e4e4e7;
-            /* zinc-200 */
-            background-color: white;
             color: #52525b;
             /* zinc-600 */
+            background-color: #ffffff;
+            border: 1px solid #e4e4e7;
+            /* zinc-200 */
+            border-radius: 0.375rem;
             cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
-            user-select: none;
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 200ms;
         }
 
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.current):not(.disabled) {
-            background-color: #f4f4f5;
-            /* zinc-100 */
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
             color: #18181b;
             /* zinc-900 */
+            background-color: #f4f4f5;
+            /* zinc-50 */
             border-color: #d4d4d8;
             /* zinc-300 */
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background-color: #18181b;
+            color: #ffffff !important;
+            background-color: #18181b !important;
             /* zinc-900 */
-            color: white;
-            border-color: #18181b;
+            border-color: #18181b !important;
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            background-color: #fafafa;
+            color: #a1a1aa;
+            /* zinc-400 */
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+            box-shadow: none;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: #f4f4f5;
+            /* zinc-50 */
+            color: #18181b;
+            /* zinc-900 */
+            border: 1px solid #d4d4d8;
+            /* zinc-300 */
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            background: #18181b;
+            /* zinc-900 */
+            color: #ffffff;
+            border: 1px solid #18181b;
         }
 
         .dataTables_wrapper .dataTables_info {
-            font-size: 0.875rem;
             color: #71717a;
             /* zinc-500 */
-            padding-top: 0.5rem;
+            font-size: 0.875rem;
         }
 
-        /* Remove default DataTables sorting icon spacing interference */
-        table.dataTable thead .sorting:after,
-        table.dataTable thead .sorting_asc:after,
-        table.dataTable thead .sorting_desc:after {
-            display: none;
+        /* Styling for empty table message */
+        td.dataTables_empty {
+            text-align: center;
+            padding: 3rem !important;
         }
     </style>
 @endsection
@@ -225,6 +241,7 @@
             // Tailwind-styled DataTables
             var table = $('#kelasTable').DataTable({
                 "paging": true,
+                "pageLength": 10,
                 "lengthChange": true,
                 "searching": true,
                 "ordering": true,
@@ -236,6 +253,10 @@
                     "searchPlaceholder": "Cari kelas...",
                     "lengthMenu": "Tampilkan _MENU_ data",
                     "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                    "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+                    "infoFiltered": "(disaring dari _MAX_ total data)",
+                    "zeroRecords": "<div class='flex flex-col items-center justify-center text-zinc-500'><i class='fas fa-search-minus text-4xl mb-2 text-zinc-300'></i><p>Tidak ada data yang cocok.</p></div>",
+                    "emptyTable": "<div class='flex flex-col items-center justify-center text-zinc-500'><i class='fas fa-door-open text-4xl mb-3 text-zinc-300'></i><p class='font-medium'>Belum ada data ruang kelas.</p></div>",
                     "paginate": {
                         "first": '<i class="fas fa-angle-double-left"></i>',
                         "last": '<i class="fas fa-angle-double-right"></i>',

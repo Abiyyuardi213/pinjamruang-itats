@@ -66,13 +66,13 @@
                                 <p class="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-1">Ruangan</p>
                                 <div class="flex items-center gap-3">
                                     @if (isset($pengajuan->kelas) && $pengajuan->kelas->gambar)
-                                        <img src="{{ asset($pengajuan->kelas->gambar) }}"
+                                        <img src="{{ asset('uploads/kelas/' . $pengajuan->kelas->gambar) }}"
                                             class="h-10 w-10 rounded-md object-cover bg-zinc-100" alt="Room">
                                     @elseif(isset($pengajuan->support) && $pengajuan->support->gambar)
-                                        <img src="{{ asset($pengajuan->support->gambar) }}"
+                                        <img src="{{ asset('uploads/fasilitas/' . $pengajuan->support->gambar) }}"
                                             class="h-10 w-10 rounded-md object-cover bg-zinc-100" alt="Room">
                                     @elseif(isset($pengajuan->laboratorium) && $pengajuan->laboratorium->gambar)
-                                        <img src="{{ asset($pengajuan->laboratorium->gambar) }}"
+                                        <img src="{{ asset('uploads/laboratorium/' . $pengajuan->laboratorium->gambar) }}"
                                             class="h-10 w-10 rounded-md object-cover bg-zinc-100" alt="Room">
                                     @else
                                         <div class="h-10 w-10 rounded-md bg-zinc-100 flex items-center justify-center">

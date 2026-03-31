@@ -2,8 +2,7 @@
 
 @section('title', 'Manajemen Peminjaman')
 
-@section('content')
-    <!-- Page Header -->
+@section('styles')
     <style>
         /* Custom DataTables Pagination Styling */
         .dataTables_wrapper .dataTables_paginate {
@@ -48,6 +47,13 @@
             border-color: #18181b !important;
         }
 
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            background: #18181b;
+            /* zinc-900 */
+            color: #ffffff;
+            border: 1px solid #18181b;
+        }
+
         .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -57,23 +63,6 @@
 
         .dataTables_wrapper .dataTables_paginate .paginate_button:active {
             box-shadow: none;
-        }
-
-        /* Remove default DataTables styling if any */
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background: #f4f4f5;
-            /* zinc-50 */
-            color: #18181b;
-            /* zinc-900 */
-            border: 1px solid #d4d4d8;
-            /* zinc-300 */
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-            background: #18181b;
-            /* zinc-900 */
-            color: #ffffff;
-            border: 1px solid #18181b;
         }
 
         .dataTables_wrapper .dataTables_info {
@@ -88,6 +77,10 @@
             padding: 3rem !important;
         }
     </style>
+@endsection
+
+@section('content')
+    <!-- Page Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 space-y-4 sm:space-y-0">
         <div>
             <h1 class="text-2xl font-bold tracking-tight text-zinc-900">Manajemen Peminjaman Ruangan</h1>
@@ -238,6 +231,7 @@
             // Tailwind-styled DataTables
             $('#peminjamanTable').DataTable({
                 "paging": true,
+                "pageLength": 10,
                 "lengthChange": true,
                 "searching": true,
                 "ordering": true,

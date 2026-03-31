@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akademik WR 1 - @yield('title', 'Dashboard')</title>
+    <title>Lab ITATS - @yield('title', 'Dashboard')</title>
     <link rel="icon" type="image/png" href="{{ asset('image/itats-1080.jpg') }}">
 
     <!-- Fonts -->

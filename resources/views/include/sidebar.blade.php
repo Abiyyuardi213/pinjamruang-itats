@@ -5,7 +5,7 @@
         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
             <img src="{{ asset('image/itats-biru.png') }}" alt="Logo ITATS"
                 class="h-8 w-auto object-contain grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all">
-            <span class="font-bold text-lg text-zinc-900 tracking-tight">Admin<span
+            <span class="font-bold text-lg text-zinc-900 tracking-tight">Lab<span
                     class="text-zinc-400">Panel</span></span>
         </a>
     </div>
@@ -39,147 +39,14 @@
             <span>Dashboard</span>
         </a>
 
-        @if ($currentUser->role->role_name !== 'CSR')
-            <div class="pt-6 pb-2 px-3">
-                <p class="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Master Data</p>
-            </div>
-
-            <a href="{{ route('admin.role.index') }}"
-                class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('admin.role.*') ? 'bg-zinc-100 text-zinc-900 shadow-sm' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900' }}">
-                <i class="fas fa-user-shield w-4 text-center"></i>
-                <span>Peran Pengguna</span>
-            </a>
-
-            <a href="{{ route('admin.user.index') }}"
-                class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('admin.user.*') ? 'bg-zinc-100 text-zinc-900 shadow-sm' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900' }}">
-                <i class="fas fa-users-cog w-4 text-center"></i>
-                <span>Pengguna</span>
-            </a>
-
-            <a href="{{ route('admin.kaprodi.index') }}"
-                class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('admin.kaprodi.*') ? 'bg-zinc-100 text-zinc-900 shadow-sm' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900' }}">
-                <i class="fas fa-user-tie w-4 text-center"></i>
-                <span>Manajemen Kaprodi</span>
-            </a>
-
-            <a href="{{ route('admin.prodi.index') }}"
-                class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('admin.prodi.*') ? 'bg-zinc-100 text-zinc-900 shadow-sm' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900' }}">
-                <i class="fas fa-university w-4 text-center"></i>
-                <span>Program Studi</span>
-            </a>
-        @endif
-
-        <!-- Menu Cuti -->
         <div class="pt-6 pb-2 px-3">
-            <p class="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Manajemen Cuti</p>
+            <p class="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Sistem Utama</p>
         </div>
 
-        @php
-            $isCuti = request()->routeIs('admin.periode.*') || request()->routeIs('admin.mahasiswa-cuti.*');
-        @endphp
-        <div class="space-y-1" id="cuti-menu">
-            <button onclick="toggleMenu('cuti-submenu', 'cuti-arrow')"
-                class="w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ $isCuti ? 'text-zinc-900 bg-zinc-50' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900' }}">
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-briefcase w-4 text-center"></i>
-                    <span>Cuti Mahasiswa</span>
-                </div>
-                <i class="fas fa-chevron-down text-xs transition-transform duration-200 text-zinc-400 {{ $isCuti ? 'rotate-180' : '' }}"
-                    id="cuti-arrow"></i>
-            </button>
-            <div id="cuti-submenu" class="pl-4 space-y-1 mt-1 {{ $isCuti ? 'block' : 'hidden' }}">
-                <a href="{{ route('admin.mahasiswa-cuti.dashboard') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 border-l border-zinc-200 ml-2 {{ request()->routeIs('admin.mahasiswa-cuti.dashboard') ? 'text-zinc-900 font-semibold border-zinc-900' : 'text-zinc-500 hover:text-zinc-900 hover:border-zinc-400' }}">
-                    <span>Dashboard Cuti</span>
-                </a>
-                <a href="{{ route('admin.periode.index') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 border-l border-zinc-200 ml-2 {{ request()->routeIs('admin.periode.*') ? 'text-zinc-900 font-semibold border-zinc-900' : 'text-zinc-500 hover:text-zinc-900 hover:border-zinc-400' }}">
-                    <span>Periode Cuti</span>
-                </a>
-                <a href="{{ route('admin.mahasiswa-cuti.index') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 border-l border-zinc-200 ml-2 {{ request()->routeIs('admin.mahasiswa-cuti.index') ? 'text-zinc-900 font-semibold border-zinc-900' : 'text-zinc-500 hover:text-zinc-900 hover:border-zinc-400' }}">
-                    <span>List Mahasiswa</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Menu Fasilitas -->
-        <div class="pt-6 pb-2 px-3">
-            <p class="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Fasilitas</p>
-        </div>
-
-        @php
-            $isFasilitas =
-                request()->routeIs('admin.fasilitas.dashboard') ||
-                request()->routeIs('admin.gedung.*') ||
-                request()->routeIs('admin.kelas.*') ||
-                request()->routeIs('admin.support.*') ||
-                request()->routeIs('admin.peminjaman-ruangan.*') ||
-                request()->routeIs('admin.pengajuan-ruangan.*') ||
-                request()->routeIs('admin.fasilitas-support.*') ||
-                request()->routeIs('admin.laboratorium.*');
-        @endphp
-        <div class="space-y-1" id="fasilitas-menu">
-            <button onclick="toggleMenu('fasilitas-submenu', 'fasilitas-arrow')"
-                class="w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ $isFasilitas ? 'text-zinc-900 bg-zinc-50' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900' }}">
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-building w-4 text-center"></i>
-                    <span>Sarana & Prasarana</span>
-                </div>
-                <i class="fas fa-chevron-down text-xs transition-transform duration-200 text-zinc-400 {{ $isFasilitas ? 'rotate-180' : '' }}"
-                    id="fasilitas-arrow"></i>
-            </button>
-            <div id="fasilitas-submenu" class="pl-4 space-y-1 mt-1 {{ $isFasilitas ? 'block' : 'hidden' }}">
-                <a href="{{ route('admin.fasilitas.dashboard') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 border-l border-zinc-200 ml-2 {{ request()->routeIs('admin.fasilitas.dashboard') ? 'text-zinc-900 font-semibold border-zinc-900' : 'text-zinc-500 hover:text-zinc-900 hover:border-zinc-400' }}">
-                    <span>Dashboard Fasilitas</span>
-                </a>
-                <a href="{{ route('admin.gedung.index') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 border-l border-zinc-200 ml-2 {{ request()->routeIs('admin.gedung.*') ? 'text-zinc-900 font-semibold border-zinc-900' : 'text-zinc-500 hover:text-zinc-900 hover:border-zinc-400' }}">
-                    <span>Gedung</span>
-                </a>
-                <a href="{{ route('admin.kelas.index') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 border-l border-zinc-200 ml-2 {{ request()->routeIs('admin.kelas.*') ? 'text-zinc-900 font-semibold border-zinc-900' : 'text-zinc-500 hover:text-zinc-900 hover:border-zinc-400' }}">
-                    <span>Ruang Kelas</span>
-                </a>
-                <a href="{{ route('admin.support.index') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 border-l border-zinc-200 ml-2 {{ request()->routeIs('admin.support.*') ? 'text-zinc-900 font-semibold border-zinc-900' : 'text-zinc-500 hover:text-zinc-900 hover:border-zinc-400' }}">
-                    <span>Ruang Support</span>
-                </a>
-                <a href="{{ route('admin.laboratorium.index') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 border-l border-zinc-200 ml-2 {{ request()->routeIs('admin.laboratorium.*') ? 'text-zinc-900 font-semibold border-zinc-900' : 'text-zinc-500 hover:text-zinc-900 hover:border-zinc-400' }}">
-                    <span>Laboratorium</span>
-                </a>
-                <a href="{{ route('admin.peminjaman-ruangan.monitoring') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 border-l border-zinc-200 ml-2 {{ request()->routeIs('admin.peminjaman-ruangan.monitoring') ? 'text-zinc-900 font-semibold border-zinc-900' : 'text-zinc-500 hover:text-zinc-900 hover:border-zinc-400' }}">
-                    <span>Monitoring Ruangan</span>
-                </a>
-                <a href="{{ route('admin.peminjaman-ruangan.index') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 border-l border-zinc-200 ml-2 {{ request()->routeIs('admin.peminjaman-ruangan.*') && !request()->routeIs('admin.peminjaman-ruangan.monitoring') ? 'text-zinc-900 font-semibold border-zinc-900' : 'text-zinc-500 hover:text-zinc-900 hover:border-zinc-400' }}">
-                    <span>Jadwal Peminjaman</span>
-                </a>
-                <a href="{{ route('admin.pengajuan-ruangan.index') }}"
-                    class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 border-l border-zinc-200 ml-2 {{ request()->routeIs('admin.pengajuan-ruangan.*') ? 'text-zinc-900 font-semibold border-zinc-900' : 'text-zinc-500 hover:text-zinc-900 hover:border-zinc-400' }}">
-                    <span>Permohonan User</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Lainnya -->
-        <div class="pt-6 pb-2 px-3">
-            <p class="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Layanan</p>
-        </div>
-
-        <a href="{{ route('admin.legalisir.index') }}"
-            class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('admin.legalisir.*') ? 'bg-zinc-100 text-zinc-900 shadow-sm' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900' }}">
-            <i class="fas fa-file-signature w-4 text-center"></i>
-            <span>Legalisir</span>
-        </a>
-
-        <a href="{{ route('admin.pengumuman.index') }}"
-            class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('admin.pengumuman.*') ? 'bg-zinc-100 text-zinc-900 shadow-sm' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900' }}">
-            <i class="fas fa-bullhorn w-4 text-center"></i>
-            <span>Pengumuman</span>
+        <a href="{{ route('admin.role.index') }}"
+            class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('admin.role.*') ? 'bg-zinc-100 text-zinc-900 shadow-sm' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900' }}">
+            <i class="fas fa-user-shield w-4 text-center"></i>
+            <span>Manajemen Peran</span>
         </a>
 
         <div class="h-10"></div> <!-- Spacer -->

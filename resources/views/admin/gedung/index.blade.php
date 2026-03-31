@@ -2,6 +2,82 @@
 
 @section('title', 'Manajemen Gedung')
 
+@section('styles')
+    <style>
+        /* Custom DataTables Pagination Styling */
+        .dataTables_wrapper .dataTables_paginate {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.25rem;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            font-weight: 500;
+            color: #52525b;
+            /* zinc-600 */
+            background-color: #ffffff;
+            border: 1px solid #e4e4e7;
+            /* zinc-200 */
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 200ms;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            color: #18181b;
+            /* zinc-900 */
+            background-color: #f4f4f5;
+            /* zinc-50 */
+            border-color: #d4d4d8;
+            /* zinc-300 */
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            color: #ffffff !important;
+            background-color: #18181b !important;
+            /* zinc-900 */
+            border-color: #18181b !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            background: #18181b;
+            /* zinc-900 */
+            color: #ffffff;
+            border: 1px solid #18181b;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            color: #a1a1aa;
+            /* zinc-400 */
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+            box-shadow: none;
+        }
+
+        .dataTables_wrapper .dataTables_info {
+            color: #71717a;
+            /* zinc-500 */
+            font-size: 0.875rem;
+        }
+
+        td.dataTables_empty {
+            text-align: center;
+            padding: 3rem !important;
+        }
+    </style>
+@endsection
+
 @section('content')
     <!-- Page Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 space-y-4 sm:space-y-0">
@@ -125,6 +201,7 @@
             // Tailwind-styled DataTables
             $('#gedungTable').DataTable({
                 "paging": true,
+                "pageLength": 10,
                 "lengthChange": true,
                 "searching": true,
                 "ordering": true,
@@ -136,6 +213,10 @@
                     "searchPlaceholder": "Cari gedung...",
                     "lengthMenu": "Tampilkan _MENU_ data",
                     "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                    "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+                    "infoFiltered": "(disaring dari _MAX_ total data)",
+                    "zeroRecords": "<div class='flex flex-col items-center justify-center text-zinc-500'><i class='fas fa-search-minus text-4xl mb-2 text-zinc-300'></i><p>Tidak ada data yang cocok.</p></div>",
+                    "emptyTable": "<div class='flex flex-col items-center justify-center text-zinc-500'><i class='fas fa-building text-4xl mb-3 text-zinc-300'></i><p class='font-medium'>Belum ada data gedung.</p></div>",
                     "paginate": {
                         "first": '<i class="fas fa-angle-double-left"></i>',
                         "last": '<i class="fas fa-angle-double-right"></i>',
@@ -149,16 +230,16 @@
             // Custom styling for inputs
             $('.dataTables_filter input').addClass(
                 'w-full md:w-64 rounded-md border border-zinc-300 px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-zinc-900 focus:border-zinc-900 text-sm'
-                );
+            );
             $('.dataTables_length select').addClass(
                 'rounded-md border border-zinc-300 px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-zinc-900 text-sm'
-                );
+            );
 
             // Delete Modal
             $('.delete-gedung-btn').click(function() {
                 let gedungId = $(this).data('gedung-id');
                 let deleteUrl = "{{ url('admin/gedung') }}/" +
-                gedungId; // Adjust url prefix if needed, ensuring /admin is respected if in routes
+                    gedungId; // Adjust url prefix if needed, ensuring /admin is respected if in routes
                 $('#deleteForm').attr('action', deleteUrl);
                 $('#deleteGedungModal').removeClass('hidden');
             });
