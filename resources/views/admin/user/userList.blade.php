@@ -87,15 +87,16 @@
             <h1 class="text-2xl font-bold tracking-tight text-zinc-900">Manajemen Pengguna</h1>
             <p class="mt-1 text-sm text-zinc-500">Kelola data pengguna, hak akses, dan informasi akun.</p>
         </div>
-        <nav class="flex text-sm font-medium text-zinc-500 items-center">
-            <a href="{{ url('admin/dashboard') }}" class="hover:text-zinc-900 transition-colors">Home</a>
-            <span class="mx-2 text-zinc-300">/</span>
-            <span class="text-zinc-900">Pengguna</span>
-        </nav>
+        <div class="flex space-x-2">
+            <a href="{{ route('admin.user.create') }}"
+                class="inline-flex items-center justify-center rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white shadow hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 transition-colors">
+                <i class="fas fa-plus mr-2"></i> Tambah Pengguna
+            </a>
+        </div>
     </div>
 
     <!-- Actions Toolbar -->
-    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-start gap-4">
         <!-- Filter Controls -->
         <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <div class="relative w-full sm:w-56">
@@ -119,27 +120,18 @@
                 <i class="fas fa-sync-alt sm:mr-0 md:mr-2"></i> <span class="md:hidden lg:inline">Reset</span>
             </button>
         </div>
-
-        <div class="flex justify-end w-full md:w-auto">
-            <a href="{{ route('admin.user.create') }}"
-                class="inline-flex items-center justify-center rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white shadow hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 transition-colors w-full">
-                <i class="fas fa-plus mr-2"></i> Tambah Pengguna
-            </a>
-        </div>
     </div>
 
-    <!-- Table Card -->
     <div class="rounded-xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
-        <div class="p-0">
-            <div class="overflow-x-auto">
-                <table id="userTable" class="w-full text-left text-sm">
-                    <thead class="bg-zinc-50 text-zinc-500 uppercase tracking-wider font-medium border-b border-zinc-200">
+        <div class="overflow-x-auto">
+            <table id="userTable" class="w-full text-left text-sm">
+                <thead class="text-xs text-zinc-500 uppercase bg-zinc-50 border-b border-zinc-100">
                         <tr>
-                            <th class="px-6 py-3 w-16 text-center">No</th>
-                            <th class="px-6 py-3">Nama Pengguna</th>
-                            <th class="px-6 py-3">Email</th>
-                            <th class="px-6 py-3">Peran</th>
-                            <th class="px-6 py-3 text-right">Aksi</th>
+                            <th class="px-6 py-3 font-medium w-16 text-center">No</th>
+                            <th class="px-6 py-3 font-medium">Nama Pengguna</th>
+                            <th class="px-6 py-3 font-medium">Email</th>
+                            <th class="px-6 py-3 font-medium">Peran</th>
+                            <th class="px-6 py-3 font-medium text-right">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-zinc-100 bg-white">
@@ -171,22 +163,24 @@
                                         {{ $user->role->role_name ?? 'N/A' }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-right space-x-2">
-                                    <a href="{{ route('admin.user.show', $user->id) }}"
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-950 shadow-sm transition-colors"
-                                        title="Detail">
-                                        <i class="fas fa-eye text-xs"></i>
-                                    </a>
-                                    <a href="{{ route('admin.user.edit', $user->id) }}"
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-950 shadow-sm transition-colors"
-                                        title="Edit">
-                                        <i class="fas fa-pencil-alt text-xs"></i>
-                                    </a>
-                                    <button
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-200 bg-white text-red-600 hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-1 focus:ring-red-500 shadow-sm transition-colors"
-                                        onclick="openDeleteModal('{{ $user->id }}', this)" title="Hapus">
-                                        <i class="fas fa-trash text-xs"></i>
-                                    </button>
+                                <td class="px-6 py-4 text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        <a href="{{ route('admin.user.show', $user->id) }}"
+                                            class="p-2 text-zinc-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                                            title="Detail">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('admin.user.edit', $user->id) }}"
+                                            class="p-2 text-zinc-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all"
+                                            title="Edit">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <button onclick="openDeleteModal('{{ $user->id }}', this)" 
+                                            class="p-2 text-zinc-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                                            title="Hapus">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -201,48 +195,6 @@
                         @endforelse
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="px-6 py-4 border-t border-zinc-100 bg-zinc-50/50 flex justify-between items-center">
-            <span class="text-xs text-zinc-500">Total Pengguna: <span
-                    class="font-medium text-zinc-900">{{ $users->count() }}</span></span>
-        </div>
-    </div>
-
-    <!-- Modal Konfirmasi Hapus -->
-    <div class="fixed inset-0 z-50 hidden" id="deleteModal" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-zinc-900/40 backdrop-blur-sm transition-opacity"></div>
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <div
-                    class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-zinc-200">
-                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                        <div class="sm:flex sm:items-start">
-                            <div
-                                class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                <i class="fas fa-exclamation-triangle text-red-600"></i>
-                            </div>
-                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                <h3 class="text-base font-semibold leading-6 text-zinc-900" id="modal-title">Hapus Pengguna
-                                </h3>
-                                <div class="mt-2">
-                                    <p class="text-sm text-zinc-500">Apakah Anda yakin ingin menghapus pengguna ini?
-                                        Tindakan ini akan menghapus semua data terkait dan tidak dapat dibatalkan.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <form id="deleteForm" method="POST" class="bg-zinc-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                            class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Hapus</button>
-                        <button type="button"
-                            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 hover:bg-zinc-50 sm:mt-0 sm:w-auto"
-                            onclick="closeDeleteModal()">Batal</button>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
 @endsection
@@ -288,12 +240,11 @@
 
             // Index column handling - robust re-indexing on every draw
             table.on('draw.dt', function() {
-                var info = table.page.info();
                 table.column(0, {
                     search: 'applied',
                     order: 'applied'
                 }).nodes().each(function(cell, i) {
-                    cell.innerHTML = i + 1 + info.start;
+                    cell.innerHTML = i + 1;
                 });
             }).draw();
 
@@ -333,72 +284,87 @@
             @if (session('new_entry'))
                 table.page('last').draw('page');
             @endif
+
+            // Status Notifications
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            @endif
+
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: "{{ session('error') }}",
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            @endif
         });
 
-        let deleteUserId = null;
+        function openDeleteModal(id) {
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: "Tindakan ini tidak dapat dibatalkan!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal",
+                width: '25em'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('admin/user') }}/" + id,
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            _method: 'DELETE'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    title: "Berhasil!",
+                                    text: response.message,
+                                    icon: "success",
+                                    width: '25em'
+                                });
 
-        function openDeleteModal(id, buttonElement) {
-            deleteUserId = id;
-            const modal = document.getElementById('deleteModal');
-            const form = document.getElementById('deleteForm');
-            form.action = "{{ url('admin/user') }}/" + id;
-            modal.classList.remove('hidden');
-        }
-
-        function closeDeleteModal() {
-            const modal = document.getElementById('deleteModal');
-            modal.classList.add('hidden');
-            deleteUserId = null;
-        }
-
-        $('#deleteForm').on('submit', function(e) {
-            e.preventDefault();
-            const form = $(this);
-            const actionUrl = form.attr('action');
-
-            $.ajax({
-                url: actionUrl,
-                type: 'POST',
-                data: form.serialize(),
-                success: function(response) {
-                    if (response.success) {
-                        const idToDelete = deleteUserId;
-                        closeDeleteModal();
-                        // Display success notification
-                        if (typeof showToast === 'function') {
-                            showToast(response.message, 'success');
-                        } else {
-                            alert(response.message);
-                        }
-
-                        // Remove row using DataTable API by ID
-                        const table = $('#userTable').DataTable();
-
-                        // Use captured ID
-                        table.row('#user-row-' + idToDelete).remove().draw(false);
-
-                        // Update Total Count in view
-                        const countElement = document.querySelector(
-                            '.px-6.py-4 span.font-medium.text-zinc-900');
-                        if (countElement) {
-                            let currentCount = parseInt(countElement.innerText);
-                            if (!isNaN(currentCount) && currentCount > 0) {
-                                countElement.innerText = currentCount - 1;
+                                // Remove row using DataTable API by ID
+                                const table = $('#userTable').DataTable();
+                                table.row('#user-row-' + id).remove().draw(false);
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal!',
+                                    text: response.message,
+                                    width: '25em'
+                                });
                             }
+                        },
+                        error: function(xhr) {
+                            const errMsg = xhr.responseJSON?.message || 'Terjadi kesalahan sistem.';
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Kesalahan!',
+                                text: errMsg,
+                                width: '25em'
+                            });
                         }
-                    }
-                },
-                error: function(xhr) {
-                    closeDeleteModal();
-                    const errorMessage = xhr.responseJSON?.message ||
-                        'Terjadi kesalahan saat menghapus data.';
-                    if (typeof showToast === 'function') {
-                        showToast(errorMessage, 'error');
-                    } else {
-                        alert(errorMessage);
-                    }
+                    });
                 }
             });
-        });
+        }
     </script>
 @endsection

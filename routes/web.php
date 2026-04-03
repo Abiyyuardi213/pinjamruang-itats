@@ -61,6 +61,8 @@ Route::name('admin.')->prefix('admin')->middleware(['auth:admin'])->group(functi
         Route::resource('user', UserController::class);
         Route::resource('kaprodi', \App\Http\Controllers\AdminKaprodiController::class);
         Route::post('role/{id}/toggle-status', [RoleController::class, 'toggleStatus'])->name('role.toggleStatus');
+        Route::get('role/{id}/permissions', [RoleController::class, 'managePermissions'])->name('role.permissions');
+        Route::post('role/{id}/permissions', [RoleController::class, 'updatePermissions'])->name('role.permissions.update');
         Route::resource('role', RoleController::class);
         Route::post('prodi/{id}/toggle-status', [ProdiController::class, 'toggleStatus'])->name('prodi.toggleStatus');
         Route::resource('prodi', ProdiController::class);

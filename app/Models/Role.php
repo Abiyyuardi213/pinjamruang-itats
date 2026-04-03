@@ -54,4 +54,13 @@ class Role extends Model
         $this->role_status = !$this->role_status;
         $this->save();
     }
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'role_permissions', 'role_id', 'permission_id');
+    }
+
+    public function hasPermission($slug)
+    {
+        return $this->permissions->contains('slug', $slug);
+    }
 }

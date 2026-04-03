@@ -44,15 +44,28 @@
             </div>
         </div>
 
-        <!-- Placeholder for Practical Management Stats -->
+        <!-- Total Prodi -->
         <div class="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-zinc-500">Total Praktikum</p>
-                    <h4 class="text-2xl font-bold text-zinc-900 mt-1">0</h4>
+                    <p class="text-sm font-medium text-zinc-500">Total Prodi</p>
+                    <h4 class="text-2xl font-bold text-zinc-900 mt-1">{{ $totalDivisi ?? 0 }}</h4>
                 </div>
                 <div class="h-10 w-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600">
-                    <i class="fas fa-flask"></i>
+                    <i class="fas fa-university"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Legalisir -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-zinc-500">Total Legalisir</p>
+                    <h4 class="text-2xl font-bold text-zinc-900 mt-1">{{ $totalLegalisir ?? 0 }}</h4>
+                </div>
+                <div class="h-10 w-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600">
+                    <i class="fas fa-stamp"></i>
                 </div>
             </div>
         </div>

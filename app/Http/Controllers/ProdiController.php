@@ -70,6 +70,13 @@ class ProdiController extends Controller
         $prodi = Prodi::findOrFail($id);
         $prodi->deleteProdi();
 
+        if (request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Program Studi berhasil dihapus.'
+            ]);
+        }
+
         return redirect()->route('admin.prodi.index')->with('success', 'Program Studi berhasil dihapus.');
     }
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab ITATS - @yield('title', 'Dashboard')</title>
+    <title>Pinjam Ruang ITATS - @yield('title', 'Dashboard')</title>
     <link rel="icon" type="image/png" href="{{ asset('image/itats-1080.jpg') }}">
 
     <!-- Fonts -->
@@ -14,6 +14,10 @@
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Scripts & Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -48,14 +52,45 @@
         </div>
     </div>
 
-    @include('services.ToastModal')
-    <!-- Logout Modal should be compatible with Tailwind or rebuilt -->
-    @include('services.LogoutModal')
+    @unless(Route::is('admin.user.*', 'admin.kaprodi.*', 'admin.role.*', 'admin.prodi.*', 'admin.periode.*', 'admin.gedung.*'))
+        @include('services.ToastModal')
+        <!-- Toast Logic -->
+        {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+        <script src="{{ asset('resources/js/ToastScript.js') }}"></script>
+    @endunless
 
-    <!-- Toast Logic (if using existing JS, ensure it works without jQuery if possible, or include jQuery if strictly needed) -->
-    <!-- For now, assuming ToastScript.js might need jQuery. Let's include jQuery just in case for legacy scripts survival -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ asset('resources/js/ToastScript.js') }}"></script>
+    <!-- Global SweetAlert2 Session Handler -->
+    @if (session('success') || session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                @if (session('success'))
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: "{{ session('success') }}",
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                @elseif (session('error'))
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal!',
+                        text: "{{ session('error') }}",
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                @endif
+            });
+        </script>
+    @endif
+
+    <!-- Logout Modal -->
+    @include('services.LogoutModal')
 
     <div id="page-scripts">
         @yield('scripts')

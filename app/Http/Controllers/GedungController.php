@@ -54,8 +54,14 @@ class GedungController extends Controller
 
     public function destroy($id)
     {
-        $gedung = Gedung::findOrFail($id);
-        $gedung->deleteGedung();
+        Gedung::findOrFail($id)->delete();
+
+        if (request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Gedung berhasil dihapus.'
+            ]);
+        }
 
         return redirect()->route('admin.gedung.index')->with('success', 'Gedung berhasil dihapus.');
     }
@@ -68,7 +74,7 @@ class GedungController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Status gedung berhasil diperbarui.'
+                'gedung_status' => $gedung->gedung_status
             ]);
         } catch(\Exception $e) {
             return response()->json([

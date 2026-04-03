@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -54,9 +55,28 @@ class RoleController extends Controller
     public function destroy($id)
     {
         $role = Role::findOrFail($id);
-        $role->deleteRole();
+        
+        // Cek apakah role masih digunakan oleh user
+        if ($role->users()->count() > 0) {
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Role tidak dapat dihapus karena masih digunakan oleh user.'
+                ], 422);
+            }
+            return redirect()->route('admin.role.index')->with('error', 'Role tidak dapat dihapus karena masih digunakan oleh user.');
+        }
 
-        return redirect()->route('admin.role.index')->with('success', 'Role berhasil dihapus.');
+        $role->delete();
+
+        if (request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Peran berhasil dihapus.'
+            ]);
+        }
+
+        return redirect()->route('admin.role.index')->with('success', 'Peran berhasil dihapus.');
     }
 
     public function toggleStatus($id)
@@ -65,10 +85,9 @@ class RoleController extends Controller
             $role = Role::findOrFail($id);
             $role->toggleStatus();
 
-            session()->flash('success', 'Status role berhasil diperbarui.');
-
             return response()->json([
                 'success' => true,
+                'role_status' => $role->role_status,
                 'message' => 'Status role berhasil diperbarui.'
             ]);
         } catch (\Exception $e) {
@@ -77,5 +96,30 @@ class RoleController extends Controller
                 'message' => 'Gagal memperbarui status.'
             ], 500);
         }
+    }
+
+    public function managePermissions($id)
+    {
+        $role = Role::with('permissions')->findOrFail($id);
+        $permissions = Permission::all();
+        
+        // Define groups for cleaner UI
+        $groups = [
+            'Sistem' => ['dashboard', 'role-management', 'user-management'],
+            'Akademik' => ['prodi-management', 'kaprodi-data', 'periode-cuti'],
+            'Sarana & Prasarana' => ['gedung-management', 'kelas-management', 'laboratorium-management', 'fasilitas-support'],
+            'Layanan & Monitoring' => ['mahasiswa-cuti', 'legalisir-ijazah', 'monitoring-ruangan', 'persetujuan-peminjaman'],
+            'Informasi' => ['pengumuman-management'],
+        ];
+
+        return view('admin.role.permissions', compact('role', 'permissions', 'groups'));
+    }
+
+    public function updatePermissions(Request $request, $id)
+    {
+        $role = Role::findOrFail($id);
+        $role->permissions()->sync($request->permissions);
+
+        return redirect()->route('admin.role.index')->with('success', 'Hak akses berhasil diperbarui.');
     }
 }

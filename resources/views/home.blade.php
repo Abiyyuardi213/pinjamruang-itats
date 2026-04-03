@@ -1,167 +1,210 @@
-<!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Akademik WR 1">
-    <title>Akademik WR 1 - Home</title>
-    <link rel="icon" type="image/png" href="{{ asset('image/itats-1080.jpg') }}">
-    <link rel="apple-touch-icon" href="{{ asset('image/itats-1080.jpg') }}">
-    <link rel="apple-touch-startup-image" href="{{ asset('image/itats-1080.jpg') }}">
-    <link rel="manifest" href="{{ asset('manifest.json') }}">
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Scripts & Styles -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-    </style>
-</head>
-
-<body class="bg-white text-zinc-950 antialiased">
-    <!-- Navbar -->
-    @include('include.navbarHome')
-
-    <!-- Hero Section -->
-    <section id="beranda" class="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-40">
-        <div class="container mx-auto px-4 md:px-6">
-            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                <div class="flex flex-col space-y-8 text-center lg:text-left order-2 lg:order-1">
-                    <div class="space-y-4">
-                        <div
-                            class="inline-flex items-center rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1 text-sm font-medium text-zinc-800 backdrop-blur-sm self-center lg:self-start">
-                            <span class="mr-2 h-2 w-2 rounded-full bg-green-500"></span>
-                            Sistem Akademik ITATS
-                        </div>
-                        <h1 class="text-4xl font-extrabold tracking-tight lg:text-6xl text-zinc-900 leading-[1.1]">
-                            Kelola Peminjaman <br class="hidden lg:block" />
-                            <span class="text-zinc-500">Ruangan Kampus</span>
-                        </h1>
-                        <p class="mx-auto lg:mx-0 max-w-[700px] text-zinc-500 md:text-xl leading-relaxed">
-                            Platform terintegrasi untuk pengajuan, jadwal, dan pengelolaan fasilitas ruangan dengan
-                            proses yang transparan dan efisien.
-                        </p>
-                    </div>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <a href="{{ route('login.guest') }}"
-                            class="inline-flex h-12 items-center justify-center rounded-md bg-zinc-900 px-8 text-sm font-medium text-zinc-50 shadow transition-colors hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50">
-                            Login Sekarang
-                        </a>
-                        <a href="#fitur"
-                            class="inline-flex h-12 items-center justify-center rounded-md border border-zinc-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 text-zinc-900">
-                            Pelajari Fitur
-                        </a>
-                    </div>
+@section('content')
+    {{-- Hero Bento --}}
+    <section class="max-w-screen-2xl mx-auto px-6 md:px-10 pt-10 md:pt-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            {{-- Left: Headline + CTA --}}
+            <div class="flex flex-col justify-center gap-6">
+                <div
+                    class="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-500 mb-4">
+                    <span class="h-2 w-2 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.4)]"></span>
+                    Pinjam Ruang • Terintegrasi • Efisien
                 </div>
-                <!-- Hero Image -->
-                <div class="relative order-1 lg:order-2">
-                    <div class="relative overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100 shadow-xl">
-                        <img src="{{ asset('image/d1.jpg') }}" alt="Room Booking Dashboard"
-                            class="w-full h-auto object-cover aspect-[4/3]">
-                    </div>
-                    <!-- Decorative elements could go here -->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="fitur" class="py-24 bg-zinc-50/50 border-y border-zinc-100">
-        <div class="container mx-auto px-4 md:px-6">
-            <div class="flex flex-col items-center justify-center text-center space-y-4 mb-16">
-                <h2 class="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">Fitur Unggulan</h2>
-                <p class="max-w-[700px] text-zinc-500 md:text-lg">
-                    Kami menghadirkan pengalaman terbaik dalam manajemen ruangan kampus dengan fitur modern dan mudah
-                    digunakan.
+                <h1 class="text-balance text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
+                    <span class="text-black">Sistem Peminjaman</span> <br>
+                    <span class="text-[#1a4fa0]">Ruangan ITATS</span>
+                </h1>
+                <p class="text-lg text-slate-600 max-w-prose leading-relaxed">
+                    Platform terintegrasi untuk pengajuan, jadwal, dan pengelolaan fasilitas ruangan di lingkungan
+                    Teknik Informatika ITATS dengan proses yang transparan dan efisien.
                 </p>
+                <div class="flex flex-wrap items-center gap-4 mt-2">
+                    <a href="{{ route('login.guest') }}"
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-bold ring-offset-background transition-all hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#1a4fa0] text-white hover:bg-[#1a4fa0]/90 h-12 px-8 py-2 shadow-lg shadow-[#1a4fa0]/25">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Masuk Portal
+                    </a>
+                    <a href="#layanan"
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-semibold ring-offset-background transition-all hover:scale-105 hover:bg-slate-100 h-12 px-8 py-2 border-2 border-slate-200 text-slate-700 bg-white">
+                        Pelajari Lebih Lanjut
+                    </a>
+                </div>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="rounded-xl border border-zinc-200 bg-white p-8 shadow-sm transition-shadow hover:shadow-md">
+            {{-- Right: Bento Grid Stats & Highlights --}}
+            <div class="grid grid-cols-2 gap-4">
+                {{-- Stats Card --}}
+                <div
+                    class="col-span-2 rounded-2xl border border-slate-200 p-6 bg-gradient-to-br from-white to-slate-50 shadow-sm relative overflow-hidden group">
                     <div
-                        class="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100 text-zinc-900">
-                        <i class="fas fa-door-open text-xl"></i>
+                        class="absolute top-0 right-0 w-32 h-32 bg-blue-600/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110">
                     </div>
-                    <h3 class="text-xl font-bold text-zinc-900 mb-3">Daftar Ruangan</h3>
-                    <p class="text-zinc-500 leading-relaxed">
-                        Akses informasi detail seluruh ruangan yang tersedia, mencakup fasilitas, kapasitas, dan foto
-                        kondisi terkini.
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6">Statistik Peminjaman</h3>
+                    <div class="grid grid-cols-3 gap-4 relative z-10">
+                        <div class="text-center">
+                            <div class="text-3xl font-black text-slate-900">50+</div>
+                            <div class="text-[10px] font-bold text-slate-500 uppercase mt-1">Ruangan</div>
+                        </div>
+                        <div class="text-center border-x border-slate-200">
+                            <div class="text-3xl font-black text-slate-900">10+</div>
+                            <div class="text-[10px] font-bold text-slate-500 uppercase mt-1">Gedung</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-black text-slate-900">1.2k+</div>
+                            <div class="text-[10px] font-bold text-slate-500 uppercase mt-1">Transaksi</div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Activity Card --}}
+                <div
+                    class="rounded-2xl border border-slate-200 p-6 bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-calendar-alt text-amber-600"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900">Jadwal Sesi</h3>
+                    <p class="text-xs text-slate-500 mt-2 leading-relaxed italic">
+                        "Pantau ketersediaan ruangan secara real-time di portal."
                     </p>
                 </div>
 
-                <!-- Card 2 -->
-                <div class="rounded-xl border border-zinc-200 bg-white p-8 shadow-sm transition-shadow hover:shadow-md">
-                    <div
-                        class="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100 text-zinc-900">
-                        <i class="fas fa-calendar-check text-xl"></i>
+                {{-- Info Card --}}
+                <div
+                    class="rounded-2xl border border-slate-200 p-6 bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-info-circle text-blue-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-zinc-900 mb-3">Peminjaman Mudah</h3>
-                    <p class="text-zinc-500 leading-relaxed">
-                        Proses pengajuan yang disederhanakan dengan formulir intuitif, dapat diakses dari perangkat dan
-                        di mana saja.
+                    <h3 class="font-bold text-slate-900">Info Terbaru</h3>
+                    <p class="text-xs text-slate-600 mt-2 italic">
+                        Periksa pengumuman untuk info ketersediaan dan pemeliharaan fasilitas.
                     </p>
                 </div>
+            </div>
+        </div>
 
-                <!-- Card 3 -->
-                <div class="rounded-xl border border-zinc-200 bg-white p-8 shadow-sm transition-shadow hover:shadow-md">
-                    <div
-                        class="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100 text-zinc-900">
-                        <i class="fas fa-chart-line text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-zinc-900 mb-3">Tracking Real-time</h3>
-                    <p class="text-zinc-500 leading-relaxed">
-                        Pantau status permohonan Anda secara langsung. Dapatkan transparansi penuh dalam setiap proses
-                        persetujuan.
-                    </p>
-                </div>
+        {{-- Hero Visual Image --}}
+        <div class="mt-12 rounded-3xl overflow-hidden border-8 border-white shadow-2xl relative group">
+            <div
+                class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity">
+            </div>
+            <img src="{{ asset('image/d1.jpg') }}" alt="Visual Kampus ITATS"
+                class="w-full h-[300px] md:h-[450px] object-cover transition-transform duration-700 group-hover:scale-105">
+            <div class="absolute bottom-10 left-10 z-20">
+                <h4 class="text-white text-2xl font-bold">Kampus ITATS</h4>
+                <p class="text-white/80 text-sm">Fasilitas Modern untuk Menunjang Akademik Mahasiswa.</p>
             </div>
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="py-24 bg-white">
-        <div class="container mx-auto px-4 md:px-6">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x-0 md:divide-x divide-zinc-100">
-                <div class="space-y-2">
-                    <div class="text-4xl font-extrabold text-zinc-900">50+</div>
-                    <p class="text-sm font-medium text-zinc-500 uppercase tracking-wide">Ruangan</p>
+    {{-- Services/Quick Access --}}
+    <section id="layanan" class="max-w-screen-2xl mx-auto px-6 md:px-10 mt-20 mb-20">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4 text-center md:text-left">
+            <div>
+                <h2 class="text-3xl font-extrabold text-slate-900">Akses Cepat</h2>
+                <p class="text-slate-500 mt-2">Layanan utama Sistem Peminjaman Ruangan.</p>
+            </div>
+            <a href="{{ route('login.guest') }}" class="text-blue-600 font-bold hover:underline flex items-center gap-2">
+                Masuk ke Dashboard <i class="fas fa-arrow-right text-xs"></i>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            @php
+                $services = [
+                    [
+                        'icon' => 'fa-door-open',
+                        'color' => 'bg-indigo-500',
+                        'title' => 'Daftar Ruangan',
+                        'desc' => 'Daftar detail seluruh ruangan yang tersedia untuk dipinjam.',
+                        'link' => route('fasilitas'),
+                    ],
+                    [
+                        'icon' => 'fa-file-signature',
+                        'color' => 'bg-emerald-500',
+                        'title' => 'Form Peminjaman',
+                        'desc' => 'Ajukan permohonan peminjaman ruangan dengan mudah.',
+                        'link' => route('login.guest'),
+                    ],
+                    [
+                        'icon' => 'fa-info-circle',
+                        'color' => 'bg-amber-500',
+                        'title' => 'Tentang Kami',
+                        'desc' => 'Pelajari lebih lanjut tentang sistem dan pengelola.',
+                        'link' => route('about'),
+                    ],
+                    [
+                        'icon' => 'fa-bullhorn',
+                        'color' => 'bg-rose-500',
+                        'title' => 'Pengumuman',
+                        'desc' => 'Informasi rilis jadwal dan ketersediaan ruangan.',
+                        'link' => route('pengumuman.index'),
+                    ],
+                ];
+            @endphp
+
+            @foreach ($services as $s)
+                <a href="{{ $s['link'] }}"
+                    class="group relative rounded-2xl border border-slate-100 p-8 bg-white shadow-sm hover:shadow-xl hover:border-blue-500/20 transition-all duration-300">
+                    <div
+                        class="w-12 h-12 rounded-xl {{ $s['color'] }} text-white flex items-center justify-center mb-6 shadow-lg shadow-inherit/20 group-hover:scale-110 transition-transform">
+                        <i class="fas {{ $s['icon'] }} text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900">{{ $s['title'] }}</h3>
+                    <p class="text-sm text-slate-500 mt-3 leading-relaxed">{{ $s['desc'] }}</p>
+                    <div class="w-12 h-1 bg-slate-100 mt-6 group-hover:w-full group-hover:bg-blue-600 transition-all"></div>
+                </a>
+            @endforeach
+        </div>
+    </section>
+
+    {{-- About Section --}}
+    <section id="tentang" class="bg-slate-50 py-20 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="order-2 lg:order-1">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-4 pt-10">
+                        <div
+                            class="aspect-square rounded-2xl bg-white p-4 shadow-sm flex items-center justify-center border border-slate-200">
+                            <img src="{{ asset('image/itats-biru.png') }}"
+                                class="w-24 h-24 object-contain grayscale opacity-50">
+                        </div>
+                        <div class="aspect-[3/4] rounded-2xl bg-blue-600/10 overflow-hidden">
+                            <div
+                                class="w-full h-full bg-blue-600 flex items-center justify-center text-white text-5xl font-black">
+                                ITATS</div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="aspect-[3/4] rounded-2xl bg-slate-200 overflow-hidden">
+                            <div
+                                class="w-full h-full bg-slate-300 flex items-center justify-center text-slate-400 text-3xl font-bold italic">
+                                Campus</div>
+                        </div>
+                        <div
+                            class="aspect-square rounded-2xl bg-white p-4 shadow-sm flex items-center justify-center border border-slate-200">
+                            <i class="fas fa-building text-6xl text-slate-100"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="space-y-2">
-                    <div class="text-4xl font-extrabold text-zinc-900">1.2k+</div>
-                    <p class="text-sm font-medium text-zinc-500 uppercase tracking-wide">Transaksi</p>
+            </div>
+            <div class="order-1 lg:order-2">
+                <h4 class="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4">Tentang Sistem</h4>
+                <h2 class="text-4xl font-extrabold text-slate-900 mb-6 leading-tight">Mendukung Mobilitas <br> Akademik ITATS</h2>
+                <div class="space-y-4 text-slate-600 leading-relaxed">
+                    <p>Sistem Peminjaman Ruangan ITATS didedikasikan untuk mempermudah civitas akademika dalam mengelola dan memesan ruang publik kampus secara digital.</p>
+                    <p>Kami memfokuskan pada transparansi jadwal dan efisiensi birokrasi perijinan demi membangun lingkungan belajar yang lebih dinamis.</p>
                 </div>
-                <div class="space-y-2">
-                    <div class="text-4xl font-extrabold text-zinc-900">98%</div>
-                    <p class="text-sm font-medium text-zinc-500 uppercase tracking-wide">Kepuasan</p>
-                </div>
-                <div class="space-y-2">
-                    <div class="text-4xl font-extrabold text-zinc-900">24/7</div>
-                    <p class="text-sm font-medium text-zinc-500 uppercase tracking-wide">Layanan</p>
+                <div class="mt-10 grid grid-cols-2 gap-8 border-t border-slate-200 pt-10">
+                    <div>
+                        <div class="text-blue-600 font-bold text-xl">Visi</div>
+                        <p class="text-sm text-slate-500 mt-2">Menjadi sistem manajemen fasilitas kampus yang terdepan melalui integrasi teknologi informasi.</p>
+                    </div>
+                    <div>
+                        <div class="text-blue-600 font-bold text-xl">Misi</div>
+                        <p class="text-sm text-slate-500 mt-2">Memberikan kemudahan akses dan akurasi data dalam setiap proses peminjaman fasilitas.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-
-    @include('include.footerUser')
-    @include('services.LogoutModalUser')
-    @include('services.ToastModal')
-</body>
-
-</html>
+@endsection

@@ -117,35 +117,51 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-zinc-100 bg-white">
-                        @foreach ($gedungs as $index => $gedung)
-                            <tr class="hover:bg-zinc-50/50 transition-colors">
+                        @foreach ($gedungs as $index => $item)
+                            <tr id="gedung-row-{{ $item->id }}" class="hover:bg-zinc-50/50 transition-colors">
                                 <td class="px-6 py-4 text-center font-medium text-zinc-900">{{ $index + 1 }}</td>
-                                <td class="px-6 py-4 font-medium text-zinc-900">{{ $gedung->nama_gedung }}</td>
-                                <td class="px-6 py-4 text-zinc-500">{{ Str::limit($gedung->gedung_description, 50) }}</td>
-                                <td class="px-6 py-4 text-center">
-                                    <label class="inline-flex relative items-center cursor-pointer">
-                                        <input type="checkbox" class="sr-only peer toggle-status"
-                                            data-gedung-id="{{ $gedung->id }}"
-                                            {{ $gedung->gedung_status ? 'checked' : '' }}>
-                                        <div
-                                            class="w-11 h-6 bg-zinc-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600">
-                                        </div>
-                                        <span
-                                            class="ml-3 text-xs font-medium text-zinc-600 peer-checked:text-green-600">{{ $gedung->gedung_status ? 'Aktif' : 'Nonaktif' }}</span>
-                                    </label>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-medium text-zinc-900">{{ $item->nama_gedung }}</span>
+                                        <button onclick="copyToClipboard('{{ $item->id }}')" 
+                                            class="text-zinc-300 hover:text-zinc-500 transition-colors" title="Salin ID">
+                                            <i class="fas fa-copy text-[10px]"></i>
+                                        </button>
+                                    </div>
                                 </td>
-                                <td class="px-6 py-4 text-right space-x-2">
-                                    <a href="{{ route('admin.gedung.edit', $gedung->id) }}"
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-950 shadow-sm transition-colors"
-                                        title="Edit">
-                                        <i class="fas fa-pencil-alt text-xs"></i>
-                                    </a>
-                                    <button
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-200 bg-white text-red-600 hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-1 focus:ring-red-500 shadow-sm transition-colors delete-gedung-btn"
-                                        data-toggle="modal" data-target="#deleteGedungModal"
-                                        data-gedung-id="{{ $gedung->id }}" title="Hapus">
-                                        <i class="fas fa-trash text-xs"></i>
-                                    </button>
+                                <td class="px-6 py-4 text-zinc-500">{{ Str::limit($item->gedung_description, 50) }}</td>
+                                <td class="px-6 py-4">
+                                    <div class="flex justify-center">
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" 
+                                                class="sr-only peer toggle-status" 
+                                                data-gedung-id="{{ $item->id }}"
+                                                {{ $item->gedung_status ? 'checked' : '' }}>
+                                            <div class="w-11 h-6 bg-zinc-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-zinc-900"></div>
+                                            <span class="ml-3 text-xs font-medium text-zinc-500 min-w-[55px]">
+                                                {{ $item->gedung_status ? 'Aktif' : 'Nonaktif' }}
+                                            </span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        <a href="{{ route('admin.gedung.show', $item->id) }}"
+                                            class="p-2 text-zinc-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                                            title="Detail">
+                                            <i class="fas fa-eye text-sm text-zinc-400"></i>
+                                        </a>
+                                        <a href="{{ route('admin.gedung.edit', $item->id) }}"
+                                            class="p-2 text-zinc-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all"
+                                            title="Edit">
+                                            <i class="fas fa-pencil-alt text-sm text-zinc-400"></i>
+                                        </a>
+                                        <button onclick="confirmDelete('{{ $item->id }}')"
+                                            class="p-2 text-zinc-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                                            title="Hapus">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -155,52 +171,18 @@
         </div>
     </div>
 
-    <!-- Modal Konfirmasi Hapus -->
-    <div class="fixed inset-0 z-50 hidden" id="deleteGedungModal" aria-labelledby="modal-title" role="dialog"
-        aria-modal="true">
-        <div class="fixed inset-0 bg-zinc-900/40 backdrop-blur-sm transition-opacity"></div>
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <div
-                    class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-zinc-200">
-                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                        <div class="sm:flex sm:items-start">
-                            <div
-                                class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                <i class="fas fa-exclamation-triangle text-red-600"></i>
-                            </div>
-                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                <h3 class="text-base font-semibold leading-6 text-zinc-900" id="modal-title">Konfirmasi
-                                    Hapus</h3>
-                                <div class="mt-2">
-                                    <p class="text-sm text-zinc-500">Apakah Anda yakin ingin menghapus data gedung ini?
-                                        Tindakan ini tidak dapat dibatalkan.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <form id="deleteForm" method="POST" class="bg-zinc-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                            class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Hapus</button>
-                        <button type="button"
-                            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 hover:bg-zinc-50 sm:mt-0 sm:w-auto"
-                            data-dismiss="modal" onclick="closeModal('deleteGedungModal')">Batal</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+
 @endsection
 
 @section('scripts')
+    <!-- jQuery is already loaded in layouts.admin, needed for DataTables -->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
             // Tailwind-styled DataTables
-            $('#gedungTable').DataTable({
+            var table = $('#gedungTable').DataTable({
                 "paging": true,
+                "stateSave": false,
                 "pageLength": 10,
                 "lengthChange": true,
                 "searching": true,
@@ -215,8 +197,8 @@
                     "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
                     "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
                     "infoFiltered": "(disaring dari _MAX_ total data)",
-                    "zeroRecords": "<div class='flex flex-col items-center justify-center text-zinc-500'><i class='fas fa-search-minus text-4xl mb-2 text-zinc-300'></i><p>Tidak ada data yang cocok.</p></div>",
-                    "emptyTable": "<div class='flex flex-col items-center justify-center text-zinc-500'><i class='fas fa-building text-4xl mb-3 text-zinc-300'></i><p class='font-medium'>Belum ada data gedung.</p></div>",
+                    "zeroRecords": "<div class='flex flex-col items-center justify-center text-zinc-500 py-8'><i class='fas fa-search-minus text-4xl mb-3 text-zinc-300'></i><p>Tidak ada data yang cocok.</p></div>",
+                    "emptyTable": "<div class='flex flex-col items-center justify-center text-zinc-500 py-8'><i class='fas fa-building text-4xl mb-3 text-zinc-300'></i><p class='font-medium'>Belum ada data gedung.</p></div>",
                     "paginate": {
                         "first": '<i class="fas fa-angle-double-left"></i>',
                         "last": '<i class="fas fa-angle-double-right"></i>',
@@ -224,8 +206,24 @@
                         "previous": '<i class="fas fa-angle-left"></i>'
                     }
                 },
-                "dom": '<"flex flex-col md:flex-row justify-between items-center p-4 gap-4"lf>rt<"flex flex-col md:flex-row justify-between items-center p-4 gap-4"ip>'
+                "dom": '<"flex flex-col md:flex-row justify-between items-center p-4 gap-4"lf>rt<"flex flex-col md:flex-row justify-between items-center p-4 gap-4"ip>',
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                }],
+                "order": []
             });
+
+            // Index column handling - robust re-indexing on every draw
+            table.on('draw.dt', function() {
+                table.column(0, {
+                    search: 'applied',
+                    order: 'applied'
+                }).nodes().each(function(cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
 
             // Custom styling for inputs
             $('.dataTables_filter input').addClass(
@@ -235,29 +233,12 @@
                 'rounded-md border border-zinc-300 px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-zinc-900 text-sm'
             );
 
-            // Delete Modal
-            $('.delete-gedung-btn').click(function() {
-                let gedungId = $(this).data('gedung-id');
-                let deleteUrl = "{{ url('admin/gedung') }}/" +
-                    gedungId; // Adjust url prefix if needed, ensuring /admin is respected if in routes
-                $('#deleteForm').attr('action', deleteUrl);
-                $('#deleteGedungModal').removeClass('hidden');
-            });
-
-            $('[data-dismiss="modal"]').click(function() {
-                $('#deleteGedungModal').addClass('hidden');
-            });
-
-            // Toggle Status
-            $(".toggle-status").change(function() {
+            // Toggle Status - Use .off().on() to prevent multiple delegated listeners in SPA environment
+            $(document).off('change', '.toggle-status').on('change', '.toggle-status', function() {
                 let gedungId = $(this).data("gedung-id");
                 let status = $(this).prop("checked") ? 1 : 0;
-                const $label = $(this).siblings('span');
-
-                // Using correct URL prefix: assuming /admin/gedung based on rest of app
-                // If previous code was url('gedung'), usually checking routes determines this. 
-                // But standard resourceful admin routes are usually /admin/gedung.
-                // I will use url('admin/gedung') to be safe with the route group likely in use.
+                const $label = $(this).closest('label').find('span');
+                const checkbox = $(this);
 
                 $.post("{{ url('admin/gedung') }}/" + gedungId + "/toggle-status", {
                     _token: '{{ csrf_token() }}',
@@ -265,23 +246,120 @@
                 }, function(res) {
                     if (res.success) {
                         $label.text(status ? 'Aktif' : 'Nonaktif');
-                        // Optional toast
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: 'Status gedung berhasil diperbarui menjadi ' + (status ? 'Aktif' :
+                                'Nonaktif'),
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
                     } else {
-                        alert("Gagal memperbarui status.");
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal!',
+                            text: 'Gagal memperbarui status gedung.',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                        checkbox.prop('checked', !status);
                     }
-                }).fail(function() {
-                    // Try fallback url if admin prefix fails (just in case)
-                    $.post("{{ url('gedung') }}/" + gedungId + "/toggle-status", {
-                        _token: '{{ csrf_token() }}',
-                        gedung_status: status
-                    }, function(res) {
-                        if (res.success) {
-                            $label.text(status ? 'Aktif' : 'Nonaktif');
-                        }
+                }).fail(function(xhr) {
+                    console.error('XHR Error:', xhr);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Kesalahan!',
+                        text: 'Terjadi kesalahan pada sistem.',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
                     });
+                    checkbox.prop('checked', !status);
                 });
             });
         });
+
+        // Status Notifications from session
+        @if (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: "{{ session('success') }}",
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        @endif
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Disalin!',
+                    text: 'ID Gedung berhasil disalin.',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            });
+        }
+
+        function confirmDelete(id) {
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: "Tindakan ini tidak dapat dibatalkan!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal",
+                width: '25em'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('admin/gedung') }}/" + id,
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            _method: 'DELETE'
+                        },
+                        success: function(res) {
+                            if (res.success) {
+                                Swal.fire({
+                                    title: "Berhasil!",
+                                    text: res.message,
+                                    icon: "success",
+                                    width: '25em'
+                                });
+
+                                // Remove row via DataTables API
+                                const table = $('#gedungTable').DataTable();
+                                table.row(`#gedung-row-${id}`).remove().draw(false);
+                            }
+                        },
+                        error: function(xhr) {
+                            const errMsg = xhr.responseJSON?.message || 'Gagal menghapus data.';
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal!',
+                                text: errMsg,
+                                width: '25em'
+                            });
+                        }
+                    });
+                }
+            });
+        }
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.add('hidden');

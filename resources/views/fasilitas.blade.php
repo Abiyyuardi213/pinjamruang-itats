@@ -1,197 +1,127 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Fasilitas">
-    <title>Akademik WR 1 - Fasilitas</title>
-    <link rel="icon" type="image/png" href="{{ asset('image/itats-1080.jpg') }}">
-    <link rel="apple-touch-icon" href="{{ asset('image/itats-1080.jpg') }}">
-    <link rel="apple-touch-startup-image" href="{{ asset('image/itats-1080.jpg') }}">
-    <link rel="manifest" href="{{ asset('manifest.json') }}">
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Scripts & Styles -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-    </style>
-</head>
-
-<body class="bg-white text-zinc-950 antialiased">
-    <!-- Navbar -->
-    @include('include.navbarHome')
-
-    <!-- Header Section -->
-    <section class="py-20 md:py-28 bg-zinc-50 border-b border-zinc-100">
-        <div class="container mx-auto px-4 text-center max-w-3xl">
-            <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-zinc-900 mb-6">Fasilitas Kampus</h1>
-            <p class="text-lg text-zinc-500 leading-relaxed">
-                Menyediakan berbagai ruangan dan fasilitas modern untuk mendukung kegiatan akademik dan kreativitas
-                mahasiswa.
-            </p>
-        </div>
-    </section>
-
-    <!-- Fasilitas Section -->
-    <section class="py-24 bg-white">
-        <div class="container mx-auto px-4 max-w-7xl">
-            <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-                <!-- Item 1: Ruang Kelas -->
+@section('content')
+    <div class="bg-white min-h-screen">
+        {{-- Hero Section --}}
+        <section class="max-w-screen-2xl mx-auto px-6 md:px-10 pt-10 md:pt-16 pb-12 overflow-hidden">
+            <div class="text-center max-w-4xl mx-auto flex flex-col items-center gap-6 relative z-10">
                 <div
-                    class="group rounded-xl border border-zinc-200 bg-card text-card-foreground shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                    <div class="aspect-video relative overflow-hidden">
-                        <img src="{{ asset('image/kelas1.jpg') }}" alt="Ruang Kelas"
-                            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-6">
-                        <div class="mb-4 flex items-center gap-2 text-sm font-medium text-zinc-500">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                            <span>Akademik</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-zinc-900 mb-3">Ruang Kelas</h3>
-                        <p class="text-zinc-500 text-sm leading-relaxed mb-4">
-                            Dilengkapi dengan proyektor, AC, kursi ergonomis, dan papan tulis whiteboard. Kapasitas
-                            bervariasi untuk mendukung proses belajar.
-                        </p>
-                        <ul class="space-y-2 text-sm text-zinc-600">
-                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2 text-xs"></i> Full
-                                AC</li>
-                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2 text-xs"></i> LCD
-                                Projector</li>
-                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2 text-xs"></i> WiFi
-                                Access</li>
-                        </ul>
-                    </div>
+                    class="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-500 mb-2">
+                    <span class="h-2 w-2 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.4)]"></span>
+                    Fasilitas Kampus • ITATS
                 </div>
-
-                <!-- Item 2: Ruang Rapat -->
-                <div
-                    class="group rounded-xl border border-zinc-200 bg-card text-card-foreground shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                    <div class="aspect-video relative overflow-hidden">
-                        <img src="{{ asset('image/d1interior2.jpg') }}" alt="Ruang Rapat"
-                            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-6">
-                        <div class="mb-4 flex items-center gap-2 text-sm font-medium text-zinc-500">
-                            <i class="fas fa-users"></i>
-                            <span>Administrasi</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-zinc-900 mb-3">Ruang Rapat</h3>
-                        <p class="text-zinc-500 text-sm leading-relaxed mb-4">
-                            Cocok untuk diskusi, seminar, atau pertemuan organisasi mahasiswa. Desain interior yang
-                            nyaman mendorong kolaborasi.
-                        </p>
-                        <ul class="space-y-2 text-sm text-zinc-600">
-                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2 text-xs"></i>
-                                Kapasitas 10-20 orang</li>
-                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2 text-xs"></i> Sound
-                                System</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Item 3: Laboratorium -->
-                <div
-                    class="group rounded-xl border border-zinc-200 bg-card text-card-foreground shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                    <div class="aspect-video relative overflow-hidden">
-                        <img src="{{ asset('image/labkomputer.jpg') }}" alt="Laboratorium"
-                            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-6">
-                        <div class="mb-4 flex items-center gap-2 text-sm font-medium text-zinc-500">
-                            <i class="fas fa-desktop"></i>
-                            <span>Praktikum</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-zinc-900 mb-3">Laboratorium Komputer</h3>
-                        <p class="text-zinc-500 text-sm leading-relaxed">
-                            Fasilitas komputer modern dengan spesifikasi tinggi, akses internet cepat, dan perangkat
-                            lunak pendukung untuk praktikum.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Item 4: Perpustakaan -->
-                <div
-                    class="group rounded-xl border border-zinc-200 bg-card text-card-foreground shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                    <div class="aspect-video relative overflow-hidden">
-                        <img src="{{ asset('image/perpustakaan-1.jpg') }}" alt="Perpustakaan"
-                            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-6">
-                        <div class="mb-4 flex items-center gap-2 text-sm font-medium text-zinc-500">
-                            <i class="fas fa-book-reader"></i>
-                            <span>Umum</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-zinc-900 mb-3">Perpustakaan</h3>
-                        <p class="text-zinc-500 text-sm leading-relaxed">
-                            Koleksi buku, jurnal, dan referensi digital yang lengkap. Area baca yang tenang dan nyaman
-                            untuk studi mandiri.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Item 5: Aula -->
-                <div
-                    class="group rounded-xl border border-zinc-200 bg-card text-card-foreground shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                    <div class="aspect-video relative overflow-hidden">
-                        <img src="{{ asset('image/joglo.jpg') }}" alt="Aula"
-                            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-6">
-                        <div class="mb-4 flex items-center gap-2 text-sm font-medium text-zinc-500">
-                            <i class="fas fa-university"></i>
-                            <span>Umum</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-zinc-900 mb-3">Aula Serbaguna</h3>
-                        <p class="text-zinc-500 text-sm leading-relaxed">
-                            Ruang luas yang dapat digunakan untuk seminar, workshop, pameran, dan kegiatan akademik
-                            skala besar lainnya.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Item 6: Kantin -->
-                <div
-                    class="group rounded-xl border border-zinc-200 bg-card text-card-foreground shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                    <div class="aspect-video relative overflow-hidden">
-                        <img src="{{ asset('image/fasilitas/kantin.jpg') }}" alt="Kantin"
-                            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-6">
-                        <div class="mb-4 flex items-center gap-2 text-sm font-medium text-zinc-500">
-                            <i class="fas fa-utensils"></i>
-                            <span>Fasilitas</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-zinc-900 mb-3">Kantin Kampus</h3>
-                        <p class="text-zinc-500 text-sm leading-relaxed">
-                            Tempat istirahat dan makan dengan berbagai pilihan menu sehat, higienis, dan harga
-                            terjangkau bagi mahasiswa.
-                        </p>
-                    </div>
-                </div>
+                <h1 class="text-balance text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-black">
+                    Lingkungan Belajar <br>
+                    <span class="text-[#1a4fa0]">Modern & Terintegrasi</span>
+                </h1>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                    Kami menyediakan berbagai infrastruktur pendukung mulai dari ruang kelas digital hingga laboratorium dengan spesifikasi tinggi untuk menunjang kreativitas dan prestasi akademik.
+                </p>
+                <div class="w-16 h-1 bg-[#1a4fa0] mt-4 rounded-full"></div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    @include('include.footerUser')
-    @include('services.LogoutModalUser')
-</body>
+        {{-- Fasilitas Grid --}}
+        <section class="py-12 pb-24 max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @php
+                    $facilities = [
+                        [
+                            'title' => 'Ruang Kelas',
+                            'category' => 'Akademik',
+                            'icon' => 'fa-chalkboard-teacher',
+                            'image' => 'kelas1.jpg',
+                            'desc' => 'Dilengkapi dengan proyektor, AC, kursi ergonomis, dan papan tulis whiteboard.',
+                            'features' => ['Full AC', 'LCD Projector', 'WiFi Access']
+                        ],
+                        [
+                            'title' => 'Ruang Rapat',
+                            'category' => 'Administrasi',
+                            'icon' => 'fa-users',
+                            'image' => 'd1interior2.jpg',
+                            'desc' => 'Cocok untuk diskusi, seminar, atau pertemuan organisasi mahasiswa.',
+                            'features' => ['Kapasitas 10-20 orang', 'Sound System', 'Meja Konferensi']
+                        ],
+                        [
+                            'title' => 'Laboratorium Komputer',
+                            'category' => 'Praktikum',
+                            'icon' => 'fa-desktop',
+                            'image' => 'labkomputer.jpg',
+                            'desc' => 'Fasilitas komputer modern dengan spesifikasi tinggi dan akses internet cepat.',
+                            'features' => ['High-End PC', 'Gigabit Network', 'Developer Tools']
+                        ],
+                        [
+                            'title' => 'Perpustakaan',
+                            'category' => 'Umum',
+                            'icon' => 'fa-book-reader',
+                            'image' => 'perpustakaan-1.jpg',
+                            'desc' => 'Koleksi buku, jurnal, dan referensi digital yang lengkap dan nyaman.',
+                            'features' => ['E-Library Access', 'Silent Zone', 'Reading Area']
+                        ],
+                        [
+                            'title' => 'Aula Serbaguna',
+                            'category' => 'Umum',
+                            'icon' => 'fa-university',
+                            'image' => 'joglo.jpg',
+                            'desc' => 'Ruang luas untuk seminar, workshop, pameran, dan kegiatan skala besar.',
+                            'features' => ['Spacious Area', 'Event Stage', 'Audio Visual']
+                        ],
+                        [
+                            'title' => 'Kantin Kampus',
+                            'category' => 'Fasilitas',
+                            'icon' => 'fa-utensils',
+                            'image' => 'fasilitas/kantin.jpg',
+                            'desc' => 'Tempat istirahat dengan berbagai pilihan menu sehat dan harga terjangkau.',
+                            'features' => ['Hygienic Food', 'Outdoor Seating', 'Student Friendly']
+                        ],
+                    ];
+                @endphp
 
-</html>
+                @foreach($facilities as $f)
+                <div class="group bg-white rounded-3xl border border-slate-100 overflow-hidden hover:shadow-2xl hover:border-blue-100 transition-all duration-500 flex flex-col">
+                    <div class="aspect-video relative overflow-hidden">
+                        <img src="{{ asset('image/' . $f['image']) }}" 
+                             alt="{{ $f['title'] }}"
+                             class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-bold text-slate-900 uppercase tracking-widest border border-white/20">
+                                {{ $f['category'] }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col flex-1">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#1a4fa0] flex items-center justify-center mb-6">
+                            <i class="fas {{ $f['icon'] }} text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">{{ $f['title'] }}</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed mb-6">{{ $f['desc'] }}</p>
+                        
+                        <div class="mt-auto pt-6 border-t border-slate-50">
+                            <ul class="flex flex-wrap gap-2">
+                                @foreach($f['features'] as $feature)
+                                <li class="text-[10px] font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded-md">
+                                    {{ $feature }}
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </section>
+
+        {{-- CTA Section --}}
+        <section class="py-20 bg-slate-50 text-center px-6 border-t border-slate-100">
+            <h2 class="text-3xl font-extrabold text-slate-900 mb-6 tracking-tight">Butuh Ruangan untuk Kegiatan Anda?</h2>
+            <p class="text-slate-500 max-w-xl mx-auto mb-10 leading-relaxed">
+                Ajukan peminjaman ruangan sekarang melalui portal kami dengan proses yang cepat dan transparan.
+            </p>
+            <a href="{{ route('login.guest') }}" 
+               class="inline-flex items-center gap-3 bg-[#1a4fa0] text-white px-10 py-4 rounded-2xl font-bold shadow-xl shadow-blue-900/20 hover:bg-blue-800 transition-all hover:-translate-y-1">
+                <i class="fas fa-file-signature"></i>
+                Ajukan Peminjaman
+            </a>
+        </section>
+    </div>
+@endsection

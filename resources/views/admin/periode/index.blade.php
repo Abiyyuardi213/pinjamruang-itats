@@ -90,17 +90,12 @@
     </style>
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 space-y-4 sm:space-y-0">
         <div>
-            <h1 class="text-2xl font-bold tracking-tight text-zinc-900">Manajemen Periode Cuti</h1>
+            <h1 class="text-2xl font-bold tracking-tight text-zinc-900">Periode Cuti</h1>
             <p class="mt-1 text-sm text-zinc-500">Kelola daftar periode cuti akademik.</p>
         </div>
-        <div class="flex flex-col sm:flex-row gap-3">
-            <nav class="flex text-sm font-medium text-zinc-500 items-center">
-                <a href="{{ url('admin/dashboard') }}" class="hover:text-zinc-900 transition-colors">Home</a>
-                <span class="mx-2 text-zinc-300">/</span>
-                <span class="text-zinc-900">Periode Cuti</span>
-            </nav>
+        <div class="flex space-x-2">
             <a href="{{ route('admin.periode.create') }}"
-                class="inline-flex items-center justify-center rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white shadow hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 transition-colors">
+                class="inline-flex items-center justify-center rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white shadow hover:bg-zinc-900/90 focus-visible:outline-none focus:ring-zinc-950 transition-colors">
                 <i class="fas fa-plus mr-2"></i> Tambah Periode
             </a>
         </div>
@@ -122,63 +117,64 @@
         <div class="p-0">
             <div class="overflow-x-auto">
                 <table id="periodeTable" class="w-full text-left text-sm">
-                    <thead class="bg-zinc-50 text-zinc-500 uppercase tracking-wider font-medium border-b border-zinc-200">
+                    <thead class="text-xs text-zinc-500 uppercase bg-zinc-50 border-b border-zinc-200">
                         <tr>
-                            <th class="px-6 py-3">No</th>
-                            <th class="px-6 py-3">ID Periode</th>
-                            <th class="px-6 py-3">Nama Periode</th>
-                            <th class="px-6 py-3">Awal Cuti</th>
-                            <th class="px-6 py-3">Akhir Cuti</th>
-                            <th class="px-6 py-3 text-center">Status</th>
-                            <th class="px-6 py-3 text-right">Aksi</th>
+                            <th class="px-6 py-3 font-medium w-16 text-center">No</th>
+                            <th class="px-6 py-3 font-medium w-20 text-center">ID</th>
+                            <th class="px-6 py-3 font-medium">Nama Periode</th>
+                            <th class="px-6 py-3 font-medium">Awal Cuti</th>
+                            <th class="px-6 py-3 font-medium">Akhir Cuti</th>
+                            <th class="px-6 py-3 font-medium text-center">Status</th>
+                            <th class="px-6 py-3 font-medium text-right">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-zinc-100 bg-white">
                         @foreach ($periodes as $index => $periode)
-                            <tr class="hover:bg-zinc-50/50 transition-colors group">
-                                <td class="px-6 py-4 font-medium text-zinc-900">{{ $index + 1 }}</td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-2">
-                                        <span
-                                            class="font-mono text-xs bg-zinc-100 px-2 py-1 rounded text-zinc-600">{{ Str::limit($periode->id, 8, '...') }}</span>
-                                        <button class="text-zinc-400 hover:text-zinc-600 copy-id-btn transition-colors"
-                                            data-id="{{ $periode->id }}" title="Salin ID">
-                                            <i class="fas fa-copy text-xs"></i>
-                                        </button>
-                                    </div>
+                            <tr id="periode-row-{{ $periode->id }}" class="hover:bg-zinc-50/50 transition-colors group">
+                                <td class="px-6 py-4 text-center font-medium text-zinc-900">{{ $index + 1 }}</td>
+                                <td class="px-6 py-4 text-center">
+                                    <button onclick="copyToClipboard('{{ $periode->id }}')" 
+                                        class="inline-flex items-center justify-center w-8 h-8 rounded-md bg-zinc-100 text-zinc-500 hover:text-zinc-900 hover:bg-zinc-200 transition-all" 
+                                        title="Salin ID">
+                                        <i class="fas fa-copy text-xs"></i>
+                                    </button>
                                 </td>
-                                <td class="px-6 py-4 font-medium text-zinc-800">{{ $periode->nama_periode }}</td>
+                                <td class="px-6 py-4">
+                                    <span class="font-medium text-zinc-800">{{ $periode->nama_periode }}</span>
+                                </td>
                                 <td class="px-6 py-4 text-zinc-600">{{ $periode->awal_cuti }}</td>
                                 <td class="px-6 py-4 text-zinc-600">{{ $periode->akhir_cuti }}</td>
-                                <td class="px-6 py-4 text-center">
-                                    <label class="inline-flex relative items-center cursor-pointer">
-                                        <input type="checkbox" class="sr-only peer toggle-status"
-                                            data-periode-id="{{ $periode->id }}"
-                                            {{ $periode->periode_status ? 'checked' : '' }}>
-                                        <div
-                                            class="w-11 h-6 bg-zinc-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600">
-                                        </div>
-                                        <span
-                                            class="ml-3 text-xs font-medium text-zinc-600 peer-checked:text-green-600">{{ $periode->periode_status ? 'Aktif' : 'Nonaktif' }}</span>
-                                    </label>
+                                <td class="px-6 py-4">
+                                    <div class="flex justify-center">
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" class="sr-only peer toggle-status"
+                                                data-periode-id="{{ $periode->id }}"
+                                                {{ $periode->periode_status ? 'checked' : '' }}>
+                                            <div class="w-11 h-6 bg-zinc-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-zinc-900"></div>
+                                            <span class="ml-3 text-xs font-medium text-zinc-500 min-w-[55px]">
+                                                {{ $periode->periode_status ? 'Aktif' : 'Nonaktif' }}
+                                            </span>
+                                        </label>
+                                    </div>
                                 </td>
-                                <td class="px-6 py-4 text-right space-x-2">
-                                    <a href="{{ route('admin.periode.show', $periode->id) }}"
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-950 shadow-sm transition-colors"
-                                        title="Detail">
-                                        <i class="fas fa-eye text-xs"></i>
-                                    </a>
-                                    <a href="{{ route('admin.periode.edit', $periode->id) }}"
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-950 shadow-sm transition-colors"
-                                        title="Edit">
-                                        <i class="fas fa-pencil-alt text-xs"></i>
-                                    </a>
-                                    <button
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-200 bg-white text-red-600 hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-1 focus:ring-red-500 shadow-sm transition-colors delete-periode-btn"
-                                        data-toggle="modal" data-target="#deletePeriodeModal"
-                                        data-periode-id="{{ $periode->id }}" title="Hapus">
-                                        <i class="fas fa-trash text-xs"></i>
-                                    </button>
+                                <td class="px-6 py-4 text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        <a href="{{ route('admin.periode.show', $periode->id) }}"
+                                            class="p-2 text-zinc-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                                            title="Detail">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('admin.periode.edit', $periode->id) }}"
+                                            class="p-2 text-zinc-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all"
+                                            title="Edit">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <button onclick="confirmDelete('{{ $periode->id }}')"
+                                            class="p-2 text-zinc-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                                            title="Hapus">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -188,43 +184,6 @@
         </div>
     </div>
 
-    <!-- Modal Konfirmasi Hapus -->
-    <div class="fixed inset-0 z-50 hidden" id="deletePeriodeModal" aria-labelledby="modal-title" role="dialog"
-        aria-modal="true">
-        <div class="fixed inset-0 bg-zinc-900/40 backdrop-blur-sm transition-opacity"></div>
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <div
-                    class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-zinc-200">
-                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                        <div class="sm:flex sm:items-start">
-                            <div
-                                class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                <i class="fas fa-exclamation-triangle text-red-600"></i>
-                            </div>
-                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                <h3 class="text-base font-semibold leading-6 text-zinc-900" id="modal-title">Konfirmasi
-                                    Hapus</h3>
-                                <div class="mt-2">
-                                    <p class="text-sm text-zinc-500">Apakah Anda yakin ingin menghapus periode ini? Tindakan
-                                        ini tidak dapat dibatalkan.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <form id="deleteForm" method="POST" class="bg-zinc-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                            class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Hapus</button>
-                        <button type="button"
-                            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 hover:bg-zinc-50 sm:mt-0 sm:w-auto"
-                            data-dismiss="modal" onclick="closeModal('deletePeriodeModal')">Batal</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('scripts')
@@ -233,9 +192,11 @@
     <script>
         $(document).ready(function() {
             // Tailwind-styled DataTables
-            $('#periodeTable').DataTable({
+            var table = $('#periodeTable').DataTable({
                 "paging": true,
+                "stateSave": false,
                 "lengthChange": true,
+                "pageLength": 10,
                 "searching": true,
                 "ordering": true,
                 "info": true,
@@ -248,8 +209,8 @@
                     "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
                     "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
                     "infoFiltered": "(disaring dari _MAX_ total data)",
-                    "zeroRecords": "<div class='flex flex-col items-center justify-center text-zinc-500'><i class='fas fa-search-minus text-4xl mb-2 text-zinc-300'></i><p>Tidak ada data yang cocok.</p></div>",
-                    "emptyTable": "<div class='flex flex-col items-center justify-center text-zinc-500'><i class='fas fa-calendar-times text-4xl mb-3 text-zinc-300'></i><p class='font-medium'>Belum ada data periode.</p></div>",
+                    "zeroRecords": "<div class='flex flex-col items-center justify-center text-zinc-500 py-8'><i class='fas fa-search-minus text-4xl mb-3 text-zinc-300'></i><p>Tidak ada data yang cocok.</p></div>",
+                    "emptyTable": "<div class='flex flex-col items-center justify-center text-zinc-500 py-8'><i class='fas fa-calendar-times text-4xl mb-3 text-zinc-300'></i><p class='font-medium'>Belum ada data periode.</p></div>",
                     "paginate": {
                         "first": '<i class="fas fa-angle-double-left"></i>',
                         "last": '<i class="fas fa-angle-double-right"></i>',
@@ -257,8 +218,24 @@
                         "previous": '<i class="fas fa-angle-left"></i>'
                     }
                 },
-                "dom": '<"flex flex-col md:flex-row justify-between items-center p-4 gap-4"lf>rt<"flex flex-col md:flex-row justify-between items-center p-4 gap-4"ip>'
+                "dom": '<"flex flex-col md:flex-row justify-between items-center p-4 gap-4"lf>rt<"flex flex-col md:flex-row justify-between items-center p-4 gap-4"ip>',
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": [0, 1]
+                }],
+                "order": []
             });
+
+            // Index column handling - robust re-indexing on every draw
+            table.on('draw.dt', function() {
+                table.column(0, {
+                    search: 'applied',
+                    order: 'applied'
+                }).nodes().each(function(cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
 
             // Custom styling for DataTables inputs
             $('.dataTables_filter input').addClass(
@@ -268,39 +245,73 @@
                 'rounded-md border border-zinc-300 px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-zinc-900 text-sm'
             );
 
-            // Handle Delete Modal
-            $('.delete-periode-btn').click(function() {
-                let periodeId = $(this).data('periode-id');
-                let deleteUrl = "{{ url('admin/periode') }}/" + periodeId;
-                $('#deleteForm').attr('action', deleteUrl);
-                $('#deletePeriodeModal').removeClass('hidden'); // Show tailwind modal
-            });
-
-            // Handle close modal (custom since we are not using bootstrap js for this modal structure fully)
-            $('[data-dismiss="modal"]').click(function() {
-                $('#deletePeriodeModal').addClass('hidden');
-            });
         });
 
-        // Copy ID
-        $('.copy-id-btn').click(function() {
-            const id = $(this).data('id');
-            navigator.clipboard.writeText(id)
-                .then(() => {
-                    // Toast handled by backend session or custom JS, reusing existing if available
-                    // Ideally we replace this with a simple alert or reuse the Toast component
-                    alert("ID disalin: " + id);
-                })
-                .catch(() => {
-                    console.error("Gagal menyalin ID");
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Disalin!',
+                    text: 'ID Periode berhasil disalin.',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000
                 });
-        });
+            });
+        }
 
-        // Toggle Status
-        $(".toggle-status").change(function() {
+        function confirmDelete(id) {
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: "Tindakan ini tidak dapat dibatalkan!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal",
+                width: '25em'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('admin/periode') }}/" + id,
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            _method: 'DELETE'
+                        },
+                        success: function(res) {
+                            if (res.success) {
+                                Swal.fire({
+                                    title: "Berhasil!",
+                                    text: "Periode berhasil dihapus.",
+                                    icon: "success",
+                                    width: '25em'
+                                });
+                                table.row(`#periode-row-${id}`).remove().draw(false);
+                            }
+                        },
+                        error: function(xhr) {
+                            const errMsg = xhr.responseJSON?.message || 'Terjadi kesalahan sistem.';
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal!',
+                                text: errMsg,
+                                width: '25em'
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        // Toggle Status - Use .off().on() to prevent multiple delegated listeners in SPA environment
+        $(document).off('change', '.toggle-status').on('change', '.toggle-status', function() {
             let periodeId = $(this).data("periode-id");
             let status = $(this).prop("checked") ? 1 : 0;
-            const $label = $(this).siblings('span');
+            const $label = $(this).closest('label').find('span');
+            const checkbox = $(this);
 
             $.post("{{ url('admin/periode') }}/" + periodeId + "/toggle-status", {
                 _token: '{{ csrf_token() }}',
@@ -308,12 +319,41 @@
             }, function(res) {
                 if (res.success) {
                     $label.text(status ? 'Aktif' : 'Nonaktif');
-                    // Optional: Show success toast
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: 'Status periode berhasil diperbarui menjadi ' + (status ? 'Aktif' :
+                            'Nonaktif'),
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
                 } else {
-                    alert("Gagal memperbarui status.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal!',
+                        text: 'Gagal memperbarui status periode.',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    checkbox.prop('checked', !status);
                 }
-            }).fail(function() {
-                alert("Terjadi kesalahan.");
+            }).fail(function(xhr) {
+                console.error('XHR Error:', xhr);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Kesalahan!',
+                    text: 'Terjadi kesalahan pada sistem.',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                checkbox.prop('checked', !status);
             });
         });
 

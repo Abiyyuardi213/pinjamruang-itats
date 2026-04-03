@@ -87,78 +87,82 @@
             <h1 class="text-2xl font-bold tracking-tight text-zinc-900">Program Studi</h1>
             <p class="mt-1 text-sm text-zinc-500">Kelola data program studi dan informasi kaprodi.</p>
         </div>
-        <nav class="flex text-sm font-medium text-zinc-500 items-center">
-            <a href="{{ url('admin/dashboard') }}" class="hover:text-zinc-900 transition-colors">Home</a>
-            <span class="mx-2 text-zinc-300">/</span>
-            <span class="text-zinc-900">Prodi</span>
-        </nav>
+        <div class="flex space-x-2">
+            <a href="{{ route('admin.prodi.create') }}"
+                class="inline-flex items-center justify-center rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white shadow hover:bg-zinc-900/90 focus-visible:outline-none focus:ring-zinc-950 transition-colors">
+                <i class="fas fa-plus mr-2"></i> Tambah Prodi
+            </a>
+        </div>
     </div>
 
-    <!-- Actions Toolbar -->
-    <div class="mb-6 flex justify-end">
-        <a href="{{ route('admin.prodi.create') }}"
-            class="inline-flex items-center justify-center rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white shadow hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-1 focus:ring-zinc-950 transition-colors">
-            <i class="fas fa-plus mr-2"></i> Tambah Prodi
-        </a>
-    </div>
-
-    <!-- Table Card -->
     <div class="rounded-xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
-        <div class="p-0">
-            <div class="overflow-x-auto">
-                <table id="prodiTable" class="w-full text-left text-sm">
-                    <thead class="bg-zinc-50 text-zinc-500 uppercase tracking-wider font-medium border-b border-zinc-200">
+        <div class="overflow-x-auto">
+            <table id="prodiTable" class="w-full text-left text-sm">
+                <thead class="text-xs text-zinc-500 uppercase bg-zinc-50 border-b border-zinc-200">
                         <tr>
-                            <th class="px-6 py-3 w-16 text-center">No</th>
-                            <th class="px-6 py-3 w-32">Kode Prodi</th>
-                            <th class="px-6 py-3">Nama Program Studi</th>
-                            <th class="px-6 py-3">Alias</th>
-                            <th class="px-6 py-3 text-center">Status</th>
-                            <th class="px-6 py-3 text-right">Aksi</th>
+                            <th class="px-6 py-3 font-medium w-16 text-center">No</th>
+                            <th class="px-6 py-3 font-medium w-32">Kode Prodi</th>
+                            <th class="px-6 py-3 font-medium">Nama Program Studi</th>
+                            <th class="px-6 py-3 font-medium">Alias</th>
+                            <th class="px-6 py-3 font-medium text-center">Status</th>
+                            <th class="px-6 py-3 font-medium text-right">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-zinc-100 bg-white">
                         @forelse($prodis as $index => $prodi)
-                            <tr class="hover:bg-zinc-50/50 transition-colors">
+                            <tr id="prodi-row-{{ $prodi->id }}" class="hover:bg-zinc-50/50 transition-colors">
                                 <td class="px-6 py-4 text-center font-medium text-zinc-900">{{ $index + 1 }}</td>
                                 <td class="px-6 py-4 font-mono text-xs text-zinc-500">{{ $prodi->kode_prodi }}</td>
                                 <td class="px-6 py-4">
                                     <div class="flex flex-col">
-                                        <span class="font-medium text-zinc-900">{{ $prodi->nama_prodi }}</span>
+                                        <div class="flex items-center gap-1.5">
+                                            <span class="font-medium text-zinc-900">{{ $prodi->nama_prodi }}</span>
+                                            <button onclick="copyToClipboard('{{ $prodi->id }}')" 
+                                                class="text-zinc-300 hover:text-zinc-500 transition-colors" title="Salin ID">
+                                                <i class="fas fa-copy text-[10px]"></i>
+                                            </button>
+                                        </div>
                                         <span class="text-xs text-zinc-400">Kaprodi: {{ $prodi->nama_kaprodi }}</span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 text-zinc-500">{{ $prodi->alias_prodi ?? '-' }}</td>
-                                <td class="px-6 py-4 text-center">
-                                    <button onclick="toggleStatus('{{ $prodi->id }}')"
-                                        class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-zinc-950 focus:ring-offset-2 {{ $prodi->prodi_status ? 'bg-zinc-900' : 'bg-zinc-200' }}"
-                                        role="switch" aria-checked="{{ $prodi->prodi_status ? 'true' : 'false' }}">
-                                        <span class="sr-only">Toggle status</span>
-                                        <span aria-hidden="true"
-                                            class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out {{ $prodi->prodi_status ? 'translate-x-5' : 'translate-x-0' }}"></span>
-                                    </button>
+                                <td class="px-6 py-4">
+                                    <div class="flex justify-center">
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" 
+                                                class="sr-only peer toggle-status" 
+                                                data-prodi-id="{{ $prodi->id }}"
+                                                {{ $prodi->prodi_status ? 'checked' : '' }}>
+                                            <div class="w-11 h-6 bg-zinc-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-zinc-900"></div>
+                                            <span class="ml-3 text-xs font-medium text-zinc-500 min-w-[55px]">
+                                                {{ $prodi->prodi_status ? 'Aktif' : 'Nonaktif' }}
+                                            </span>
+                                        </label>
+                                    </div>
                                 </td>
-                                <td class="px-6 py-4 text-right space-x-2">
-                                    <a href="{{ route('admin.prodi.show', $prodi->id) }}"
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-950 shadow-sm transition-colors"
-                                        title="Detail">
-                                        <i class="fas fa-eye text-xs"></i>
-                                    </a>
-                                    <a href="{{ route('admin.prodi.edit', $prodi->id) }}"
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-950 shadow-sm transition-colors"
-                                        title="Edit">
-                                        <i class="fas fa-pencil-alt text-xs"></i>
-                                    </a>
-                                    <button
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-200 bg-white text-red-600 hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-1 focus:ring-red-500 shadow-sm transition-colors"
-                                        onclick="openDeleteModal('{{ $prodi->id }}')" title="Hapus">
-                                        <i class="fas fa-trash text-xs"></i>
-                                    </button>
+                                <td class="px-6 py-4 text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        <a href="{{ route('admin.prodi.show', $prodi->id) }}"
+                                            class="p-2 text-zinc-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                                            title="Detail">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('admin.prodi.edit', $prodi->id) }}"
+                                            class="p-2 text-zinc-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all"
+                                            title="Edit">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <button onclick="openDeleteModal('{{ $prodi->id }}')" 
+                                            class="p-2 text-zinc-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                                            title="Hapus">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-12 text-center text-zinc-500">
+                                <td colspan="7" class="px-6 py-12 text-center text-zinc-500">
                                     <div class="flex flex-col items-center justify-center">
                                         <i class="fas fa-graduation-cap text-4xl text-zinc-300 mb-3"></i>
                                         <p>Belum ada data program studi.</p>
@@ -168,60 +172,21 @@
                         @endforelse
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="px-6 py-4 border-t border-zinc-100 bg-zinc-50/50 flex justify-between items-center">
-            <span class="text-xs text-zinc-500">Total Program Studi: <span
-                    class="font-medium text-zinc-900">{{ $prodis->count() }}</span></span>
         </div>
     </div>
 
-    <!-- Modal Konfirmasi Hapus -->
-    <div class="fixed inset-0 z-50 hidden" id="deleteModal" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-zinc-900/40 backdrop-blur-sm transition-opacity"></div>
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <div
-                    class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-zinc-200">
-                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                        <div class="sm:flex sm:items-start">
-                            <div
-                                class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                <i class="fas fa-exclamation-triangle text-red-600"></i>
-                            </div>
-                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                <h3 class="text-base font-semibold leading-6 text-zinc-900" id="modal-title">Hapus Program
-                                    Studi</h3>
-                                <div class="mt-2">
-                                    <p class="text-sm text-zinc-500">Apakah Anda yakin ingin menghapus program studi ini?
-                                        Tindakan ini akan menghapus semua data terkait dan tidak dapat dibatalkan.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <form id="deleteForm" method="POST" class="bg-zinc-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                            class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Hapus</button>
-                        <button type="button"
-                            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 hover:bg-zinc-50 sm:mt-0 sm:w-auto"
-                            onclick="closeDeleteModal()">Batal</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('scripts')
+    <!-- jQuery is already loaded in layouts.admin, needed for DataTables -->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
             // Tailwind-styled DataTables
-            $('#prodiTable').DataTable({
+            var table = $('#prodiTable').DataTable({
                 "paging": true,
                 "lengthChange": true,
+                "pageLength": 10,
                 "searching": true,
                 "ordering": true,
                 "info": true,
@@ -234,7 +199,8 @@
                     "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
                     "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
                     "infoFiltered": "(disaring dari _MAX_ total data)",
-                    "zeroRecords": "Tidak ada data yang cocok",
+                    "zeroRecords": '<div class="py-10 flex flex-col items-center justify-center text-zinc-500"><i class="fas fa-search text-4xl mb-3 text-zinc-300"></i><p>Tidak ada data yang cocok</p></div>',
+                    "emptyTable": '<div class="py-10 flex flex-col items-center justify-center text-zinc-500"><i class="fas fa-graduation-cap text-4xl mb-3 text-zinc-300"></i><p>Belum ada data program studi.</p></div>',
                     "paginate": {
                         "first": '<i class="fas fa-angle-double-left"></i>',
                         "last": '<i class="fas fa-angle-double-right"></i>',
@@ -242,8 +208,24 @@
                         "previous": '<i class="fas fa-angle-left"></i>'
                     }
                 },
-                "dom": '<"flex flex-col md:flex-row justify-between items-center p-4 gap-4"lf>rt<"flex flex-col md:flex-row justify-between items-center p-4 gap-4"ip>'
+                "dom": '<"flex flex-col md:flex-row justify-between items-center p-4 gap-4"lf>rt<"flex flex-col md:flex-row justify-between items-center p-4 gap-4"ip>',
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                }],
+                "order": []
             });
+
+            // Index column handling - robust re-indexing on every draw
+            table.on('draw.dt', function() {
+                table.column(0, {
+                    search: 'applied',
+                    order: 'applied'
+                }).nodes().each(function(cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
 
             // Custom styling for inputs
             $('.dataTables_filter input').addClass(
@@ -252,41 +234,136 @@
             $('.dataTables_length select').addClass(
                 'rounded-md border border-zinc-300 px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-zinc-900 text-sm'
             );
+
+            // Status Notifications
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            @endif
+
+            // Toggle Status - Use .off().on() for SPA safety
+            $(document).off('change', '.toggle-status').on('change', '.toggle-status', function() {
+                const prodiId = $(this).data("prodi-id");
+                const status = $(this).prop("checked") ? 1 : 0;
+                const $label = $(this).closest('label').find('span');
+                const checkbox = $(this);
+
+                $.ajax({
+                    url: `{{ url('admin/prodi') }}/${prodiId}/toggle-status`,
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(res) {
+                        if (res.success) {
+                            $label.text(status ? 'Aktif' : 'Nonaktif');
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: res.message,
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 2000,
+                                timerProgressBar: true
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal!',
+                                text: res.message,
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                            checkbox.prop('checked', !status);
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Kesalahan!',
+                            text: 'Terjadi kesalahan sistem.',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                        checkbox.prop('checked', !status);
+                    }
+                });
+            });
         });
 
-        function openDeleteModal(id) {
-            const modal = document.getElementById('deleteModal');
-            const form = document.getElementById('deleteForm');
-            form.action = "{{ url('admin/prodi') }}/" + id;
-            modal.classList.remove('hidden');
-        }
-
-        function closeDeleteModal() {
-            const modal = document.getElementById('deleteModal');
-            modal.classList.add('hidden');
-        }
-
-        function toggleStatus(id) {
-            fetch(`{{ url('admin/prodi') }}/${id}/toggle-status`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({})
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        location.reload();
-                    } else {
-                        alert('Gagal update status');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan');
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Disalin!',
+                    text: 'ID Prodi berhasil disalin.',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000
                 });
+            });
+        }
+
+        function openDeleteModal(id) {
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: "Tindakan ini tidak dapat dibatalkan!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal",
+                width: '25em'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('admin/prodi') }}/" + id,
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            _method: 'DELETE'
+                        },
+                        success: function(res) {
+                            if (res.success) {
+                                Swal.fire({
+                                    title: "Berhasil!",
+                                    text: res.message,
+                                    icon: "success",
+                                    width: '25em'
+                                });
+
+                                // Remove row via DataTables API
+                                const table = $('#prodiTable').DataTable();
+                                table.row(`#prodi-row-${id}`).remove().draw(false);
+                            }
+                        },
+                        error: function(xhr) {
+                            const errMsg = xhr.responseJSON?.message || 'Gagal menghapus data.';
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal!',
+                                text: errMsg,
+                                width: '25em'
+                            });
+                        }
+                    });
+                }
+            });
         }
     </script>
 @endsection

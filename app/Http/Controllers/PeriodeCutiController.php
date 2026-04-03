@@ -66,6 +66,13 @@ class PeriodeCutiController extends Controller
         $periode = PeriodeCuti::findOrFail($id);
         $periode->deletePeriode();
 
+        if (request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Periode berhasil dihapus.'
+            ]);
+        }
+
         return redirect()->route('admin.periode.index')->with('success', 'Periode berhasil dihapus.');
     }
 
