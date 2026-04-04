@@ -4,7 +4,7 @@
             <!-- Brand -->
             <div class="space-y-6">
                 <div class="flex items-center gap-3">
-                    <img src="{{ asset('image/logo-itats-putih.png') }}" alt="Logo ITATS" class="h-10 w-auto opacity-90">
+                    <img src="{{ asset('image/logo-itats-putih.png') }}" alt="Logo ITATS" class="h-8 w-auto opacity-90">
                     <div>
                         <h5 class="text-lg font-bold text-white leading-none tracking-tight">Sistem Peminjaman<br>Ruangan
                         </h5>
@@ -50,21 +50,20 @@
             <div>
                 <h6 class="text-sm font-semibold text-white tracking-wider uppercase mb-6">Ikuti Kami</h6>
                 <div class="flex gap-4">
-                    <a href="#"
-                        class="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-900 rounded-md">
-                        <i class="fab fa-facebook-f text-lg"></i>
-                    </a>
-                    <a href="#"
-                        class="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-900 rounded-md">
-                        <i class="fab fa-twitter text-lg"></i>
-                    </a>
-                    <a href="#"
-                        class="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-900 rounded-md">
+                    <a href="https://www.instagram.com/itats.official/" target="_blank"
+                        class="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-900 rounded-md"
+                        aria-label="Instagram ITATS">
                         <i class="fab fa-instagram text-lg"></i>
                     </a>
-                    <a href="#"
-                        class="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-900 rounded-md">
+                    <a href="#" target="_blank"
+                        class="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-900 rounded-md"
+                        aria-label="LinkedIn ITATS">
                         <i class="fab fa-linkedin-in text-lg"></i>
+                    </a>
+                    <a href="#" target="_blank"
+                        class="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-900 rounded-md"
+                        aria-label="YouTube ITATS">
+                        <i class="fab fa-youtube text-lg"></i>
                     </a>
                 </div>
             </div>

@@ -3,7 +3,12 @@
 @section('content')
     <div class="bg-white min-h-screen">
         {{-- Hero Section --}}
-        <section class="max-w-screen-2xl mx-auto px-6 md:px-10 pt-10 md:pt-16 pb-12 overflow-hidden">
+        <section class="max-w-screen-2xl mx-auto px-6 md:px-10 pt-10 md:pt-16 pb-12 overflow-hidden relative">
+            {{-- Grid Background Pattern --}}
+            <div class="absolute inset-0 z-0 opacity-40 pointer-events-none" 
+                 style="background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px); background-size: 30px 30px;">
+            </div>
+            
             <div class="text-center max-w-4xl mx-auto flex flex-col items-center gap-6 relative z-10">
                 <div
                     class="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-500 mb-2">

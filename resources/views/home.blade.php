@@ -162,27 +162,22 @@
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div class="order-2 lg:order-1">
                 <div class="grid grid-cols-2 gap-4">
+                    {{-- Left Column --}}
                     <div class="space-y-4 pt-10">
-                        <div
-                            class="aspect-square rounded-2xl bg-white p-4 shadow-sm flex items-center justify-center border border-slate-200">
-                            <img src="{{ asset('image/itats-biru.png') }}"
-                                class="w-24 h-24 object-contain grayscale opacity-50">
+                        <div class="aspect-square rounded-2xl overflow-hidden shadow-md border border-slate-200">
+                            <img src="{{ asset('image/d1.jpg') }}" class="w-full h-full object-cover">
                         </div>
-                        <div class="aspect-[3/4] rounded-2xl bg-blue-600/10 overflow-hidden">
-                            <div
-                                class="w-full h-full bg-blue-600 flex items-center justify-center text-white text-5xl font-black">
-                                ITATS</div>
+                        <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-md border border-slate-200">
+                            <img src="{{ asset('image/d1interior.jpg') }}" class="w-full h-full object-cover">
                         </div>
                     </div>
+                    {{-- Right Column --}}
                     <div class="space-y-4">
-                        <div class="aspect-[3/4] rounded-2xl bg-slate-200 overflow-hidden">
-                            <div
-                                class="w-full h-full bg-slate-300 flex items-center justify-center text-slate-400 text-3xl font-bold italic">
-                                Campus</div>
+                        <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-md border border-slate-200">
+                            <img src="{{ asset('image/graha-itats.jpeg') }}" class="w-full h-full object-cover">
                         </div>
-                        <div
-                            class="aspect-square rounded-2xl bg-white p-4 shadow-sm flex items-center justify-center border border-slate-200">
-                            <i class="fas fa-building text-6xl text-slate-100"></i>
+                        <div class="aspect-square rounded-2xl overflow-hidden shadow-md border border-slate-200">
+                            <img src="{{ asset('image/gedungA.jpg') }}" class="w-full h-full object-cover">
                         </div>
                     </div>
                 </div>
